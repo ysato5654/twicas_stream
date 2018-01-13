@@ -42,9 +42,9 @@ module TwicasStream
 
 			DEFAULT_LIMIT = 10
 
-			MIN_LIMIT = 1
+			LOWER_LIMIT = 1
 
-			MAX_LIMIT = 50
+			UPPER_LIMIT = 50
 
 			DEFAULT_SLICE_ID = 'none'
 
@@ -52,8 +52,8 @@ module TwicasStream
 				@response = Hash.new
 				param = Hash.new
 
-				unless limit >= MIN_LIMIT and limit <= MAX_LIMIT
-					STDERR.puts "#{__FILE__}:#{__LINE__}:Warning: out of limitation. limited range is #{MIN_LIMIT} ~ #{MAX_LIMIT}"
+				unless limit >= LOWER_LIMIT and limit <= UPPER_LIMIT
+					STDERR.puts "#{__FILE__}:#{__LINE__}:Warning: out of limitation. limitation range is #{LOWER_LIMIT} ~ #{UPPER_LIMIT}"
 				end
 
 				param['offset'] = offset
