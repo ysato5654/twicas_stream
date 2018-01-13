@@ -40,7 +40,7 @@ module TwicasStream
 				param = Hash.new
 
 				unless LANG_LIMITATION.include?(lang)
-					STDERR.puts "#{__FILE__}:#{__LINE__}:Warning: out of limitation. support language is '#{LANG_LIMITATION[0]}' or '#{LANG_LIMITATION[1]}'"
+					STDERR.puts "#{__FILE__}:#{__LINE__}:Warning: out of limitation. currently support language are '#{LANG_LIMITATION.join("' or '")}'."
 				end
 
 				param['lang'] = lang
