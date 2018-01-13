@@ -37,7 +37,6 @@ module TwicasStream
 
 			def initialize lang
 				@response = Hash.new
-
 				param = Hash.new
 
 				unless LANG_LIMITATION.include?(lang)

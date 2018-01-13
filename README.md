@@ -37,7 +37,7 @@ Current version supports following requests.
 |                | Supporting List          | Not Support |
 |                | Supporter List           | Not Support |
 | Category       | Get Categories           | Support |
-| Search         | Search Users             |  |
+| Search         | Search Users             | Not Support |
 |                | Search Live Movies       | Not Support |
 
 ## References
@@ -159,6 +159,12 @@ end
 /										  
 ├─	/config								  
 │	└─	access_token.txt				  
+├─	/examples							  
+│	├─	get_categories.rb				  
+│	├─	get_comments.rb					  
+│	├─	get_movie_info.rb				  
+│	├─	get_user_info.rb				  
+│	└─	verify_credentials.rb			  
 ├─	/lib								  
 │	├─	/twicas_stream					  
 │	│	├─	/twicas_api_object			  
