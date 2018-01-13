@@ -25,9 +25,15 @@ end
 
 if $0 == __FILE__
 	require File.expand_path(File.dirname(__FILE__) + '/user/test_user')
+	require File.expand_path(File.dirname(__FILE__) + '/movie/test_movie')
 	require File.expand_path(File.dirname(__FILE__) + '/category/test_category')
 
 	test = TestUser.new
+	test.start
+
+	Test.summary(test)
+
+	test = TestMovie.new
 	test.start
 
 	Test.summary(test)
