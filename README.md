@@ -93,7 +93,7 @@ There are some example source code in there, and help you to understand more.
 
 Current version supports following requests.
 
-| Classification | Method                   | Support |
+| Classification | Request                  | Support |
 |:---------------|:-------------------------|:------------:|
 | User           | Get User Info            | Support |
 |                | Verify Credentials       | Support |
@@ -110,8 +110,8 @@ Current version supports following requests.
 |                | Supporting List          | Not Support |
 |                | Supporter List           | Not Support |
 | Category       | Get Categories           | Support |
-| Search         | Search Users             | Not Support |
-|                | Search Live Movies       | Not Support |
+| Search         | Search Users             | Support |
+|                | Search Live Movies       | Support |
 
 ## References
 
@@ -120,7 +120,9 @@ Current version supports following requests.
 
 ---
 
-## for Developer
+## Appendix
+
+Here is for developer of twicas_stream
 
 ### twicas_stream
 
@@ -259,18 +261,24 @@ end
 │	└─	twicas_stream.rb				  
 ├─	/test								  
 │	├─	/category						  
-│	│	└─	test_category.rb			  
+│	│	├─	test_category.rb			  
+│	│	└─	test_get_categories.rb		  
 │	├─	/comment						  
-│	│	└─	test_comment.rb				  
+│	│	├─	test_comment.rb				  
+│	│	└─	test_get_comments.rb		  
 │	├─	/live_thumbnail					  
 │	│	└─	test_live_thumbnail.rb		  
 │	├─	/movie							  
+│	│	├─	test_get_movie_info.rb		  
 │	│	└─	test_movie.rb				  
 │	├─	/search							  
-│	│	└─	test_search.rb				  
+│	│	├─	test_search.rb				  
+│	│	├─	test_search_live_movies.rb	  
+│	│	└─	test_search_users.rb		  
 │	├─	/support						  
 │	│	└─	test_support.rb				  
 │	├─	/user							  
+│	│	├─	test_get_user_info.rb		  
 │	│	└─	test_user.rb				  
 │	└─	test.rb							  
 ├─	/tmp								  
