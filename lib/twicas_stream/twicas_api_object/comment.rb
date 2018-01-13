@@ -6,23 +6,17 @@ require File.expand_path(File.dirname(__FILE__) + '/user')
 module TwicasStream
 	module TwicasApiObject
 		class Comment
-			attr_reader :objects
+			attr_reader :object
 
-			def initialize elements = []
-				@objects = Array.new
+			def initialize elements = {}
+				from_user = User.new(elements['from_user'])
 
-				elements.each{ |element|
-					from_user = User.new(element['from_user'])
-
-					object = {
-								:id        => element['id'],
-								:message   => element['message'],
-								:from_user => from_user.object, 
-								:created   => element['created']
-							}
-
-					@objects.push object
-				}
+				@object = {
+							:id        => elements['id'],
+							:message   => elements['message'],
+							:from_user => from_user.object, 
+							:created   => elements['created']
+						}
 			end
 		end
 	end

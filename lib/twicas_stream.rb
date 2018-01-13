@@ -26,30 +26,37 @@ module TwicasStream
 	class << self
 		def parse result
 			hash = Hash.new
+
 			response = response(result)
 			return hash unless response == 200
 
 			body = body(result)
 
 			body.each{ |key, value|
-				# called by 'GetMovieInfo' method
-				if key == 'broadcaster'
-					str = [self.to_s, 'TwicasApiObject', 'User'].join('::')
-					api = Object.const_get(str).new(value)
+				# here is the plural form of TwicasStream
+				if (key != key.singularize) and is_TwicasApiObject?(key)
+					if key == 'movies'
+						array = Array.new
+						value.each{ |e|
+							tmp = Hash.new
 
-					hash[key.to_sym] = (key == key.singularize) ? api.object : api.objects
+							e.each{ |child_key, child_value|
+								tmp[child_key.to_sym] = parse_deep(child_key, child_value)
+							}
 
-				elsif TwicasApiObject.constants.include?(key.singularize.capitalize.to_sym)
-					# TwicasApiObject.constants
-					# => [:App, :User, :Movie, :Comment, :SupporterUser, :SubCategory, :Category]
+							array.push tmp
+						}
 
-					str = [self.to_s, 'TwicasApiObject', key.singularize.capitalize].join('::')
-					api = Object.const_get(str).new(value)
+						hash[key.to_sym] = array
 
-					hash[key.to_sym] = (key == key.singularize) ? api.object : api.objects
+					else
+						hash[key.to_sym] = value.map{ |e| parse_deep(key, e) }
 
+					end
+
+				# here is a singular form of TwicasApiObject, also others are here
 				else
-					hash[key.to_sym] = value
+					hash[key.to_sym] = parse_deep(key, value)
 
 				end
 			}
@@ -82,6 +89,34 @@ module TwicasStream
 			end
 
 			query[0...-1]
+		end
+
+		private
+		def parse_deep key, value
+			if is_TwicasApiObject?(key)
+				str = [self.to_s, 'TwicasApiObject', key.singularize.capitalize].join('::')
+				api = Object.const_get(str).new(value)
+
+				return api.object
+
+			# called by 'GetMovieInfo' method
+			elsif key == 'broadcaster'
+				str = [self.to_s, 'TwicasApiObject', 'User'].join('::')
+				api = Object.const_get(str).new(value)
+
+				return api.object
+
+			else
+				return value
+
+			end
+		end
+
+		private
+		def is_TwicasApiObject? str
+			TwicasApiObject.constants.include?(str.singularize.capitalize.to_sym)
+			# TwicasApiObject.constants
+			# => [:App, :User, :Movie, :Comment, :SupporterUser, :SubCategory, :Category]
 		end
 	end
 end
