@@ -22,7 +22,7 @@ class TestUser < Test
 						}, 
 				# for 'GetUserInfo' class
 				:test3 => {
-							:description => 'no existing user', 
+							:description => 'unset user id', 
 							:user_id => ''
 						}
 			}

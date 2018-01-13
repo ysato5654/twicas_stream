@@ -19,7 +19,7 @@ class TestMovie < Test
 							:movie_id => DEFAULT_MOVIE_ID + 'hogehoge'
 							}, 
 				:test3 => {
-							:description => 'no existing movie', 
+							:description => 'unset movie id', 
 							:movie_id => ''
 						}
 			}
