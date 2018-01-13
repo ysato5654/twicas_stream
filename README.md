@@ -2,19 +2,92 @@
 
 twicas_stream provides simple Ruby access to [TwitCasting](https://twitcasting.tv/) API.
 
-## Rreparation before installation
-
-1. Registration
-2. Get Access Token
-
 ## Installation
 ```rb
 ```
 
+## Rreparation before using
+
+Before using twicas_stream, we need to get access token in order to access TwitCasting API (APIv2).
+Flow is as below.
+
+1. Registration  
+Create new application, getting access token need 'ClientID' and 'ClientSecret'.
+2. Get Access Token  
+TwitCasting API (APIv2) provides two types of authorization flow.
+For more information, please refer to API Documentation (APIv2).
+
 ## Usage
 
+### Verify Credentials
+
+Verify access token and get user information
+
 ```rb
+user = TwicasStream::User::VerifyCredentials.new
+verify_credentials = user.response
+# following data is brought from API Documentation (APIv2)
+# => {
+         "app":{
+           "client_id": "182224938.d37f58350925d568e2db24719fe86f11c4d14e0461429e8b5da732fcb1917b6e",
+           "name": "サンプルアプリケーション",
+           "owner_user_id": "182224938"
+         },
+         "user":{
+             "id":"182224938",
+             "screen_id":"twitcasting_jp",
+             "name":"ツイキャス公式",
+             "image":"http://202-234-44-53.moi.st/image3s/pbs.twimg.com/profile_images/613625726512705536/GLlBoXcS_normal.png",
+             "profile":"ツイキャスの公式アカウントです。ツイキャスに関するお知らせなどを投稿します。なお、お問い合わせは https://t.co/4gCf7XVm7N までお願いします。公式Facebookページhttps://t.co/bxYVwpzTJB\n公式Instagram\nhttps://t.co/Bm2O2J2Kfs",
+             "level":24,
+             "last_movie_id":"189037369",
+             "is_live":false,
+             "supporter_count": 10,
+             "supporting_count": 24,
+             "created":1282620640
+         }
+     }
 ```
+
+### Get Comments
+
+Get comments of movie id which you set
+
+```rb
+movie_id = '189037369'
+comment = TwicasStream::Comment::GetComments.new(movie_id)
+comments = comment.response
+# following data is brought from API Documentation (APIv2)
+# => {
+         "movie_id":"189037369",
+         "all_count":2124,
+         "comments":[
+             {
+                 "id":"7134775954",
+                 "message":"モイ！",
+                 "from_user":{
+                     "id":"182224938",
+                     "screen_id":"twitcasting_jp",
+                     "name":"ツイキャス公式",
+                     "image":"http://202-234-44-53.moi.st/image3s/pbs.twimg.com/profile_images/613625726512705536/GLlBoXcS_normal.png",
+                     "profile":"ツイキャスの公式アカウントです。ツイキャスに関するお知らせなどを投稿します。なお、お問い合わせは https://t.co/4gCf7XVm7N までお願いします。公式Facebookページhttps://t.co/bxYVwpzTJB\n公式Instagram\nhttps://t.co/Bm2O2J2Kfs",
+                     "level":24,
+                     "last_movie_id":"189037369",
+                     "is_live":false,
+                     "supporter_count": 10,
+                     "supporting_count": 24,
+                     "created":1282620640
+                 },
+                 "created":1479579471
+             },
+           :
+           :
+         ]
+     }
+```
+
+For more usage, please refer to 'examples' directory.
+There are some example source code in there, and help you to understand more.
 
 ## Support Request List
 
