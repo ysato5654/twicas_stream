@@ -5,7 +5,6 @@ require File.expand_path(File.dirname(__FILE__) + '/twicas_api_object/category')
 
 module TwicasStream
 	module Category
-
 		class GetCategories
 			attr_reader :response
 						# => {

@@ -19,7 +19,7 @@ module TwicasStream
 
 	API_VERSION = '2.0'
 
-	Accept_Encoding = 'application/json'
+	ACCEPT_ENCODING = 'application/json'
 
 	ACCESS_TOKEN = File.read(File.expand_path(File.dirname(__FILE__) + '/../config/access_token.txt'))
 
@@ -67,7 +67,7 @@ module TwicasStream
 
 		def get url
 			c = Curl.get(url) do |curl|
-				curl.headers['Accept'] = Accept_Encoding
+				curl.headers['Accept'] = ACCEPT_ENCODING
 				curl.headers['X-Api-Version'] = API_VERSION
 				curl.headers['Authorization'] = 'Bearer ' + ACCESS_TOKEN
 			end

@@ -6,7 +6,6 @@ require File.expand_path(File.dirname(__FILE__) + '/twicas_api_object/user')
 
 module TwicasStream
 	module User
-
 		class GetUserInfo
 			attr_reader :response
 
