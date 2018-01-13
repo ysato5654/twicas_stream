@@ -1,33 +1,13 @@
 #! /opt/local/bin/ruby
 # coding: utf-8
 
-require File.expand_path(File.dirname(__FILE__) + '/../test')
+require File.expand_path(File.dirname(__FILE__) + '/test_get_user_info')
 
-class TestUser < Test
+class TestUser
 	attr_reader :pass_num
 	attr_reader :result
 
-	DEFAULT_USER_ID = 'twitcasting_jp'
-
-	PARAM = {
-				# for 'GetUserInfo' class
-				:test1 => {
-							:description => 'existing user', 
-							:user_id => DEFAULT_USER_ID
-						}, 
-				# for 'GetUserInfo' class
-				:test2 => {
-							:description => 'no existing user', 
-							:user_id => DEFAULT_USER_ID + 'hogehoge'
-						}, 
-				# for 'GetUserInfo' class
-				:test3 => {
-							:description => 'unset user id', 
-							:user_id => ''
-						}
-			}
-
-	TEST_NUM = PARAM.keys.size
+	TEST_NUM = TestGetUserInfo::PARAM.keys.size
 
 	def initialize
 		@pass_num = 0
@@ -37,44 +17,18 @@ class TestUser < Test
 	def start
 		@pass_num = 0
 
-		PARAM.each{ |key, val|
-			STDOUT.puts '-----------------------'
-			STDOUT.puts '  ' + val[:description]
-			STDOUT.puts '-----------------------'
+		test = TestGetUserInfo.new
+		test.start
+		@pass_num += test.pass_num
+		@result = test.result
 
-			user = TwicasStream::User::GetUserInfo.new(val[:user_id])
-			user_info = user.response
-
-			STDOUT.puts
-
-			if val[:user_id] == DEFAULT_USER_ID
-				if user_info.empty?
-					STDOUT.puts TEST_FAIL
-				else
-					@pass_num += 1
-					STDOUT.puts TEST_PASS
-				end
-			else
-				if user_info.empty?
-					@pass_num += 1
-					STDOUT.puts TEST_PASS
-				else
-					STDOUT.puts TEST_FAIL
-				end
-			end
-
-			STDOUT.puts
-
-		}
-
-		@result = true if @pass_num == TEST_NUM
-
-		return @result
+		Test.summary(test)
 	end
 end
 
 if $0 == __FILE__
 	require File.expand_path(File.dirname(__FILE__) + '/../../lib/twicas_stream')
+	require File.expand_path(File.dirname(__FILE__) + '/../test')
 
 	test = TestUser.new
 	test.start

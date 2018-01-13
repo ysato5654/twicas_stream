@@ -1,13 +1,14 @@
 #! /opt/local/bin/ruby
 # coding: utf-8
 
-require File.expand_path(File.dirname(__FILE__) + '/test_get_categories')
+require File.expand_path(File.dirname(__FILE__) + '/test_search_live_movies')
+require File.expand_path(File.dirname(__FILE__) + '/test_search_users')
 
-class TestCategory
+class TestSearch
 	attr_reader :pass_num
 	attr_reader :result
 
-	TEST_NUM = TestGetCategory::PARAM.keys.size
+	TEST_NUM = TestSearchUsers::PARAM.keys.size + TestSearchLiveMovies::PARAM.keys.size
 
 	def initialize
 		@pass_num = 0
@@ -17,7 +18,14 @@ class TestCategory
 	def start
 		@pass_num = 0
 
-		test = TestGetCategory.new
+		test = TestSearchUsers.new
+		test.start
+		@pass_num += test.pass_num
+		@result = test.result
+
+		Test.summary(test)
+
+		test = TestSearchLiveMovies.new
 		test.start
 		@pass_num += test.pass_num
 		@result = test.result
@@ -30,7 +38,7 @@ if $0 == __FILE__
 	require File.expand_path(File.dirname(__FILE__) + '/../../lib/twicas_stream')
 	require File.expand_path(File.dirname(__FILE__) + '/../test')
 
-	test = TestCategory.new
+	test = TestSearch.new
 	test.start
 
 	Test.summary(test)

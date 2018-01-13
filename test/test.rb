@@ -4,9 +4,9 @@
 require File.expand_path(File.dirname(__FILE__) + '/../lib/twicas_stream')
 
 class Test
-	TEST_PASS = '** PASS **'
+	PASS = '** PASS **'
 
-	TEST_FAIL = '** FAIL **'
+	FAIL = '** FAIL **'
 
 	def self.summary test
 		test_num = test.class.to_s + '::' + 'TEST_NUM'
@@ -26,24 +26,35 @@ if $0 == __FILE__
 	require File.expand_path(File.dirname(__FILE__) + '/category/test_category')
 	require File.expand_path(File.dirname(__FILE__) + '/comment/test_comment')
 	require File.expand_path(File.dirname(__FILE__) + '/movie/test_movie')
+	require File.expand_path(File.dirname(__FILE__) + '/search/test_search')
 	require File.expand_path(File.dirname(__FILE__) + '/user/test_user')
+
 
 	test = TestUser.new
 	test.start
 
 	Test.summary(test)
 
+
 	test = TestMovie.new
 	test.start
 
 	Test.summary(test)
+
 
 	test = TestComment.new
 	test.start
 
 	Test.summary(test)
 
+
 	test = TestCategory.new
+	test.start
+
+	Test.summary(test)
+
+
+	test = TestSearch.new
 	test.start
 
 	Test.summary(test)
