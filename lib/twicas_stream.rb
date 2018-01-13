@@ -32,10 +32,26 @@ module TwicasStream
 			body = body(result)
 
 			body.each{ |key, value|
-				str = [self.to_s, 'TwicasApiObject', key.singularize.capitalize].join('::')
-				api = Object.const_get(str).new(value)
+				# called by 'GetMovieInfo' method
+				if key == 'broadcaster'
+					str = [self.to_s, 'TwicasApiObject', 'User'].join('::')
+					api = Object.const_get(str).new(value)
 
-				hash[key.to_sym] = (key == key.singularize) ? api.object : api.objects
+					hash[key.to_sym] = (key == key.singularize) ? api.object : api.objects
+
+				elsif TwicasApiObject.constants.include?(key.singularize.capitalize.to_sym)
+					# TwicasApiObject.constants
+					# => [:App, :User, :Movie, :Comment, :SupporterUser, :SubCategory, :Category]
+
+					str = [self.to_s, 'TwicasApiObject', key.singularize.capitalize].join('::')
+					api = Object.const_get(str).new(value)
+
+					hash[key.to_sym] = (key == key.singularize) ? api.object : api.objects
+
+				else
+					hash[key.to_sym] = value
+
+				end
 			}
 
 			hash
