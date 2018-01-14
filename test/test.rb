@@ -10,7 +10,7 @@ require File.expand_path(File.dirname(__FILE__) + '/search/test_search')
 require File.expand_path(File.dirname(__FILE__) + '/user/test_user')
 
 class Test
-	LIST = ['User', 'Movie', 'Comment', 'Category', 'Search']
+	TARGET = ['User', 'Movie', 'Comment', 'Category', 'Search']
 
 	PASS = '** PASS **'
 
@@ -42,7 +42,7 @@ class Test
 	end
 
 	def self.all
-		LIST.each{ |test_name|
+		TARGET.each{ |test_name|
 			class_name = self.to_s + test_name
 			# => 'Test' + 'User'
 

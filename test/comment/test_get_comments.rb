@@ -86,6 +86,12 @@ class TestGetComments
 		PARAM.each{ |key, val|
 			Test.description(val[:description])
 
+			TwicasStream.reset
+
+			TwicasStream.configure do |request_header|
+				request_header.access_token = File.read(File.expand_path(File.dirname(__FILE__) + '/../../config/access_token.txt'))
+			end
+
 			api = TwicasStream::Comment::GetComments.new(val[:movie_id], val[:offset], val[:limit], val[:slice_id])
 			comments = api.response
 

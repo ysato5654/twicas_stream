@@ -108,6 +108,12 @@ class TestSearchUsers
 		PARAM.each{ |key, val|
 			Test.description(val[:description])
 
+			TwicasStream.reset
+
+			TwicasStream.configure do |request_header|
+				request_header.access_token = File.read(File.expand_path(File.dirname(__FILE__) + '/../../config/access_token.txt'))
+			end
+
 			api = TwicasStream::Search::SearchUsers.new(val[:words], val[:limit], val[:lang])
 			search_users = api.response
 
