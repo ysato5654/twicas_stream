@@ -11,28 +11,28 @@ if $0 == __FILE__
 		request_header.access_token = 'xxx'# put your access token here
 	end
 
-	movie_id = '189037369'
-	api = TwicasStream::Movie::GetMovieInfo.new(movie_id)
-	movie_info = api.response[:movie]
+	api = TwicasStream::User::VerifyCredentials.new
+	app = api.response[:app]
+	user = api.response[:user]
 
 	exit(0) if api.response.empty?
 
 	STDOUT.puts
 
-	STDOUT.puts 'Movie ID is ' + movie_info[:id]
+	STDOUT.puts '<Client ID>'
+	STDOUT.puts app[:client_id]
 	STDOUT.puts
 
-	STDOUT.puts '<Title>'
-	STDOUT.puts movie_info[:title] + ' ~ ' + movie_info[:subtitle]
+	STDOUT.puts '<Application Name>'
+	STDOUT.puts app[:name]
 	STDOUT.puts
 
-	STDOUT.puts '<Tags>'
-	STDOUT.puts api.response[:tags]
+	STDOUT.puts '<Name>'
+	STDOUT.puts user[:name]
 	STDOUT.puts
 
-	STDOUT.puts 'Current View Count = ' + movie_info[:current_view_count].to_s
-	STDOUT.puts 'Total View Count = ' + movie_info[:total_view_count].to_s
-
+	STDOUT.puts '<Screen ID>'
+	STDOUT.puts user[:screen_id]
 	STDOUT.puts
 
 end

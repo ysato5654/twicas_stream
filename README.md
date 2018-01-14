@@ -3,7 +3,9 @@
 twicas_stream provides simple Ruby access to [TwitCasting](https://twitcasting.tv/) API.
 
 ## Installation
+
 ```rb
+under construction
 ```
 
 ## Documentation / Help
@@ -71,15 +73,15 @@ end
 
 movie_id = '189037369'
 api = TwicasStream::Comment::GetComments.new(movie_id)
-comments = api.response
+comments = api.response[:comments]
 
-p comments[:comments].first[:from_user][:name]
+p comments.first[:from_user][:name]
 # => 'ツイキャス公式'
-p comments[:comments].first[:from_user][:screen_id]
+p comments.first[:from_user][:screen_id]
 # => 'twitcasting_jp'
-p comments[:comments].first[:message]
+p comments.first[:message]
 # => 'モイ！'
-p comments[:comments].first[:created]
+p comments.first[:created]
 # => 1479579471
 # (**) unix timestamp
 ```

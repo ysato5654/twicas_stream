@@ -11,28 +11,25 @@ if $0 == __FILE__
 		request_header.access_token = 'xxx'# put your access token here
 	end
 
-	movie_id = '189037369'
-	api = TwicasStream::Comment::GetComments.new(movie_id)
-	comments = api.response[:comments]
+	lang = 'ja'
+	api = TwicasStream::Category::GetCategories.new(lang)
+	categories = api.response[:categories]
 
 	exit(0) if api.response.empty?
 
 	STDOUT.puts
 
-	STDOUT.puts 'Movie ID is ' + api.response[:movie_id]
-	STDOUT.puts
-
 	STDOUT.puts '--------------------------------'
-	STDOUT.puts 'name' + ' ' + '(' + '@' + 'screen_id' + ')'
+	STDOUT.puts 'category name'
 	STDOUT.puts
-	STDOUT.puts 'message'
-	STDOUT.puts 'created time'
+	STDOUT.puts '    sub category name'
 	STDOUT.puts '--------------------------------'
-	comments.each{ |comment|
-		STDOUT.puts comment[:from_user][:name] + ' ' + '(' + '@' + comment[:from_user][:screen_id] + ')'
+	categories.each{ |category|
+		STDOUT.puts category[:name]
 		STDOUT.puts
-		STDOUT.puts comment[:message]
-		STDOUT.puts Time.at(comment[:created])
+		category[:sub_categories].each{ |sub_category|
+			STDOUT.puts '    ' + sub_category[:name]
+		}
 		STDOUT.puts '--------------------------------'
 	}
 

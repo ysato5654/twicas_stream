@@ -30,7 +30,6 @@ module TwicasStream
 						   # 					]
 						   # }
 
-
 			PREFIX_URL = 'categories'
 
 			LANG_LIMITATION = ['ja', 'en']

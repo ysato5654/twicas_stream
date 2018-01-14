@@ -11,28 +11,30 @@ if $0 == __FILE__
 		request_header.access_token = 'xxx'# put your access token here
 	end
 
-	movie_id = '189037369'
-	api = TwicasStream::Comment::GetComments.new(movie_id)
-	comments = api.response[:comments]
+	words = 'ツイキャス 公式'
+	limit = 3
+	lang = 'ja'
+	api = TwicasStream::Search::SearchUsers.new(words, limit, lang)
+	users = api.response[:users]
 
 	exit(0) if api.response.empty?
 
 	STDOUT.puts
 
-	STDOUT.puts 'Movie ID is ' + api.response[:movie_id]
-	STDOUT.puts
-
 	STDOUT.puts '--------------------------------'
-	STDOUT.puts 'name' + ' ' + '(' + '@' + 'screen_id' + ')'
-	STDOUT.puts
-	STDOUT.puts 'message'
-	STDOUT.puts 'created time'
-	STDOUT.puts '--------------------------------'
-	comments.each{ |comment|
-		STDOUT.puts comment[:from_user][:name] + ' ' + '(' + '@' + comment[:from_user][:screen_id] + ')'
+	users.each{ |user|
+		STDOUT.puts '<Name>'
+		STDOUT.puts user[:name]
 		STDOUT.puts
-		STDOUT.puts comment[:message]
-		STDOUT.puts Time.at(comment[:created])
+
+		STDOUT.puts '<Screen ID>'
+		STDOUT.puts user[:screen_id]
+		STDOUT.puts
+
+		STDOUT.puts '<Profile>'
+		STDOUT.puts user[:profile]
+		STDOUT.puts
+
 		STDOUT.puts '--------------------------------'
 	}
 
