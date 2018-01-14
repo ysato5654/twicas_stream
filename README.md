@@ -33,17 +33,17 @@ Get comments of movie id which you set
 
 movie_id = '189037369'
 api = TwicasStream::Movie::GetMovieInfo.new(movie_id)
-movie_info = api.response
+movie_info = api.response[:movie]
 
-p movie_info[:movie][:title]
+p movie_info[:title]
 # => 'ライブ #189037369'
-p movie_info[:movie][:subtitle]
+p movie_info[:subtitle]
 # => 'ライブ配信中！'
-p movie_info[:movie][:current_view_count]
+p movie_info[:current_view_count]
 # => 20848
-p movie_info[:movie][:total_view_count]
+p movie_info[:total_view_count]
 # => 20848
-p movie_info[:tags]
+p api.response[:tags]
 # => ['人気', 'コンティニュー中', 'レベル40+', '初見さん大歓迎', 'まったり', '雑談']
 ```
 
