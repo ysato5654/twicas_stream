@@ -84,12 +84,10 @@ class TestGetComments
 		@pass_num = 0
 
 		PARAM.each{ |key, val|
-			STDOUT.puts '-----------------------'
-			STDOUT.puts '  ' + val[:description]
-			STDOUT.puts '-----------------------'
+			Test.description(val[:description])
 
-			comment = TwicasStream::Comment::GetComments.new(val[:movie_id], val[:offset], val[:limit], val[:slice_id])
-			comments = comment.response
+			api = TwicasStream::Comment::GetComments.new(val[:movie_id], val[:offset], val[:limit], val[:slice_id])
+			comments = api.response
 
 			STDOUT.puts
 

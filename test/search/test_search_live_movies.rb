@@ -122,12 +122,10 @@ class TestSearchLiveMovies
 		@pass_num = 0
 
 		PARAM.each{ |key, val|
-			STDOUT.puts '-----------------------'
-			STDOUT.puts '  ' + val[:description]
-			STDOUT.puts '-----------------------'
+			Test.description(val[:description])
 
-			search = TwicasStream::Search::SearchLiveMovies.new(val[:limit], val[:type], val[:context], val[:lang])
-			search_users = search.response
+			api = TwicasStream::Search::SearchLiveMovies.new(val[:limit], val[:type], val[:context], val[:lang])
+			search_users = api.response
 
 			STDOUT.puts
 

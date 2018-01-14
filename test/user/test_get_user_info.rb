@@ -10,17 +10,14 @@ class TestGetUserInfo
 	DEFAULT_USER_ID = 'twitcasting_jp'
 
 	PARAM = {
-				# for 'GetUserInfo' class
 				:test1 => {
 							:description => 'existing user', 
 							:user_id => DEFAULT_USER_ID
 						}, 
-				# for 'GetUserInfo' class
 				:test2 => {
 							:description => 'no existing user', 
 							:user_id => DEFAULT_USER_ID + 'hogehoge'
 						}, 
-				# for 'GetUserInfo' class
 				:test3 => {
 							:description => 'unset user id', 
 							:user_id => ''
@@ -38,12 +35,10 @@ class TestGetUserInfo
 		@pass_num = 0
 
 		PARAM.each{ |key, val|
-			STDOUT.puts '-----------------------'
-			STDOUT.puts '  ' + val[:description]
-			STDOUT.puts '-----------------------'
+			Test.description(val[:description])
 
-			user = TwicasStream::User::GetUserInfo.new(val[:user_id])
-			user_info = user.response
+			api = TwicasStream::User::GetUserInfo.new(val[:user_id])
+			user_info = api.response
 
 			STDOUT.puts
 

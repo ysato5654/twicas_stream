@@ -35,12 +35,10 @@ class TestGetMovieInfo
 		@pass_num = 0
 
 		PARAM.each{ |key, val|
-			STDOUT.puts '-----------------------'
-			STDOUT.puts '  ' + val[:description]
-			STDOUT.puts '-----------------------'
+			Test.description(val[:description])
 
-			movie = TwicasStream::Movie::GetMovieInfo.new(val[:movie_id])
-			movie_info = movie.response
+			api = TwicasStream::Movie::GetMovieInfo.new(val[:movie_id])
+			movie_info = api.response
 
 			STDOUT.puts
 

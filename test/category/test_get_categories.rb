@@ -41,12 +41,10 @@ class TestGetCategory
 		@pass_num = 0
 
 		PARAM.each{ |key, val|
-			STDOUT.puts '-----------------------'
-			STDOUT.puts '  ' + val[:description]
-			STDOUT.puts '-----------------------'
+			Test.description(val[:description])
 
-			category = TwicasStream::Category::GetCategories.new(val[:lang])
-			categories = category.response
+			api = TwicasStream::Category::GetCategories.new(val[:lang])
+			categories = api.response
 
 			STDOUT.puts
 
