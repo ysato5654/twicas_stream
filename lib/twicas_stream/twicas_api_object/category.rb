@@ -20,7 +20,7 @@ module TwicasStream
 			def initialize elements = {}
 				sub_categories = SubCategory.new(elements['sub_categories'])
 
-				object = {
+				@object = {
 							:id             => elements['id'],
 							:name           => elements['name'],
 							:sub_categories => sub_categories.objects
