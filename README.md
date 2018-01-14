@@ -6,6 +6,11 @@ twicas_stream provides simple Ruby access to [TwitCasting](https://twitcasting.t
 ```rb
 ```
 
+## Documentation / Help
+
+- [Developer API](https://twitcasting.tv/indexapi.php)
+- [API Documentation (APIv2)](http://apiv2-doc.twitcasting.tv/)
+
 ## Rreparation before using
 
 Before using twicas_stream, we need to get access token in order to access TwitCasting API (APIv2).
@@ -19,34 +24,27 @@ For more information, please refer to API Documentation (APIv2).
 
 ## Usage
 
-### Verify Credentials
+### Get Movie Info
 
-Verify access token and get user information
+Get comments of movie id which you set
 
 ```rb
-user = TwicasStream::User::VerifyCredentials.new
-verify_credentials = user.response
-# following data is brought from API Documentation (APIv2)
-# => {
-         "app":{
-           "client_id": "182224938.d37f58350925d568e2db24719fe86f11c4d14e0461429e8b5da732fcb1917b6e",
-           "name": "サンプルアプリケーション",
-           "owner_user_id": "182224938"
-         },
-         "user":{
-             "id":"182224938",
-             "screen_id":"twitcasting_jp",
-             "name":"ツイキャス公式",
-             "image":"http://202-234-44-53.moi.st/image3s/pbs.twimg.com/profile_images/613625726512705536/GLlBoXcS_normal.png",
-             "profile":"ツイキャスの公式アカウントです。ツイキャスに関するお知らせなどを投稿します。なお、お問い合わせは https://t.co/4gCf7XVm7N までお願いします。公式Facebookページhttps://t.co/bxYVwpzTJB\n公式Instagram\nhttps://t.co/Bm2O2J2Kfs",
-             "level":24,
-             "last_movie_id":"189037369",
-             "is_live":false,
-             "supporter_count": 10,
-             "supporting_count": 24,
-             "created":1282620640
-         }
-     }
+# (*) following data are just example
+
+movie_id = '189037369'
+api = TwicasStream::Movie::GetMovieInfo.new(movie_id)
+movie_info = api.response
+
+p movie_info[:movie][:title]
+# => 'ライブ #189037369'
+p movie_info[:movie][:subtitle]
+# => 'ライブ配信中！'
+p movie_info[:movie][:current_view_count]
+# => 20848
+p movie_info[:movie][:total_view_count]
+# => 20848
+p movie_info[:tags]
+# => ['人気', 'コンティニュー中', 'レベル40+', '初見さん大歓迎', 'まったり', '雑談']
 ```
 
 ### Get Comments
@@ -54,36 +52,21 @@ verify_credentials = user.response
 Get comments of movie id which you set
 
 ```rb
+# (*) following data are just example
+
 movie_id = '189037369'
-comment = TwicasStream::Comment::GetComments.new(movie_id)
-comments = comment.response
-# following data is brought from API Documentation (APIv2)
-# => {
-         "movie_id":"189037369",
-         "all_count":2124,
-         "comments":[
-             {
-                 "id":"7134775954",
-                 "message":"モイ！",
-                 "from_user":{
-                     "id":"182224938",
-                     "screen_id":"twitcasting_jp",
-                     "name":"ツイキャス公式",
-                     "image":"http://202-234-44-53.moi.st/image3s/pbs.twimg.com/profile_images/613625726512705536/GLlBoXcS_normal.png",
-                     "profile":"ツイキャスの公式アカウントです。ツイキャスに関するお知らせなどを投稿します。なお、お問い合わせは https://t.co/4gCf7XVm7N までお願いします。公式Facebookページhttps://t.co/bxYVwpzTJB\n公式Instagram\nhttps://t.co/Bm2O2J2Kfs",
-                     "level":24,
-                     "last_movie_id":"189037369",
-                     "is_live":false,
-                     "supporter_count": 10,
-                     "supporting_count": 24,
-                     "created":1282620640
-                 },
-                 "created":1479579471
-             },
-           :
-           :
-         ]
-     }
+api = TwicasStream::Comment::GetComments.new(movie_id)
+comments = api.response
+
+p comments[:comments].first[:from_user][:name]
+# => 'ツイキャス公式'
+p comments[:comments].first[:from_user][:screen_id]
+# => 'twitcasting_jp'
+p comments[:comments].first[:message]
+# => 'モイ！'
+p comments[:comments].first[:created]
+# => 1479579471
+# (**) unix timestamp
 ```
 
 For more usage, please refer to 'examples' directory.
@@ -112,11 +95,6 @@ Current version supports following requests.
 | Category       | Get Categories           | Support |
 | Search         | Search Users             | Support |
 |                | Search Live Movies       | Support |
-
-## References
-
-- [Developer API](https://twitcasting.tv/indexapi.php)
-- [API Documentation (APIv2)](http://apiv2-doc.twitcasting.tv/)
 
 ---
 
@@ -284,5 +262,19 @@ end
 ├─	/tmp								  
 ├─	LICENSE								  
 └─	README.md							  
+```
+
+### Test
+
+#### execution of all test
+
+```rb
+ruby Test.rb
+```
+
+#### execution of each test
+
+```rb
+ruby TestUser.rb
 ```
 
