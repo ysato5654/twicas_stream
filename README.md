@@ -11,7 +11,7 @@ twicas_stream provides simple Ruby access to [TwitCasting](https://twitcasting.t
 - [Developer API](https://twitcasting.tv/indexapi.php)
 - [API Documentation (APIv2)](http://apiv2-doc.twitcasting.tv/)
 
-## Rreparation before using
+## Preparation before using
 
 Before using twicas_stream, we need to get access token in order to access TwitCasting API (APIv2).
 Flow is as below.
@@ -30,6 +30,17 @@ Get comments of movie id which you set
 
 ```rb
 # (*) following data are just example
+
+TwicasStream.configure do |request_header|
+	#request_header.api_version
+	# => default is '2.0'
+	#request_header.accept_encoding
+	# => default is 'application/json'
+	# Above value don't need to change, default setting must be enough.
+
+	request_header.access_token = 'xxx'
+	# => you must set access token before using.
+end
 
 movie_id = '189037369'
 api = TwicasStream::Movie::GetMovieInfo.new(movie_id)
@@ -53,6 +64,10 @@ Get comments of movie id which you set
 
 ```rb
 # (*) following data are just example
+
+TwicasStream.configure do |request_header|
+	request_header.access_token = 'xxx'
+end
 
 movie_id = '189037369'
 api = TwicasStream::Comment::GetComments.new(movie_id)
@@ -101,6 +116,15 @@ Current version supports following requests.
 ## Appendix
 
 Here is for developer of twicas_stream
+
+### Preparation before developing
+
+Before develop twicas_stream, we need to prepare as below.
+Because example srouce code and test code need access
+
+1. Create '/config' directory
+2. Create 'access_token.txt' in there
+3. Write your access token in that file
 
 ### twicas_stream
 
@@ -232,6 +256,7 @@ end
 │	│	├─	comment.rb					  
 │	│	├─	live_thumbnail.rb			  
 │	│	├─	movie.rb					  
+│	│	├─	request_header.rb			  
 │	│	├─	search.rb					  
 │	│	├─	support.rb					  
 │	│	├─	user.rb						  
