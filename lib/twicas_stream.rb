@@ -1,6 +1,8 @@
 #! /opt/local/bin/ruby
 # coding: utf-8
 
+require File.expand_path(File.dirname(__FILE__) + '/twicas_stream/request_header')
+
 require File.expand_path(File.dirname(__FILE__) + '/twicas_stream/user')
 require File.expand_path(File.dirname(__FILE__) + '/twicas_stream/live_thumbnail')
 require File.expand_path(File.dirname(__FILE__) + '/twicas_stream/movie')
@@ -15,13 +17,9 @@ require 'curb'
 require 'json'
 
 module TwicasStream
+	extend RequestHeader
+
 	BASE_URL = 'https://apiv2.twitcasting.tv'
-
-	API_VERSION = '2.0'
-
-	ACCEPT_ENCODING = 'application/json'
-
-	ACCESS_TOKEN = File.read(File.expand_path(File.dirname(__FILE__) + '/../config/access_token.txt'))
 
 	class << self
 		def parse result
@@ -74,9 +72,11 @@ module TwicasStream
 
 		def get url
 			c = Curl.get(url) do |curl|
-				curl.headers['Accept'] = ACCEPT_ENCODING
-				curl.headers['X-Api-Version'] = API_VERSION
-				curl.headers['Authorization'] = 'Bearer ' + ACCESS_TOKEN
+				TwicasStream.configure do |request_header|
+					curl.headers['X-Api-Version'] = request_header.api_version
+					curl.headers['Accept'] = request_header.accept_encoding
+					curl.headers['Authorization'] = 'Bearer ' + request_header.access_token
+				end
 			end
 
 			{ :body => JSON.parse(c.body_str), :response => c.response_code }
