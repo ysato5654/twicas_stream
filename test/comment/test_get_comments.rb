@@ -65,7 +65,7 @@ class TestGetComments
 							:slice_id => DEFAULT_SLICE_ID
 						}, 
 				:test7 => {
-							:description => 'out of limitation (over upper limit: set 101 but according to API document, upper limit is 50)', 
+							:description => 'out of limitation (over upper limit: according to API document, upper limit is 50. but, it seems to be 100 correctly. in this test, we set by 101.)', 
 							:movie_id => DEFAULT_MOVIE_ID, 
 							:offset => DEFAULT_OFFSET, 
 							:limit => UPPER_LIMIT + UPPER_LIMIT + 1, 

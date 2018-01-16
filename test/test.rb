@@ -9,6 +9,12 @@ require File.expand_path(File.dirname(__FILE__) + '/movie/test_movie')
 require File.expand_path(File.dirname(__FILE__) + '/search/test_search')
 require File.expand_path(File.dirname(__FILE__) + '/user/test_user')
 
+class String
+	def alphabet?
+		(self =~ /^[A-Za-z]+$/) == 0
+	end
+end
+
 class Test
 	TARGET = ['User', 'Movie', 'Comment', 'Category', 'Search']
 

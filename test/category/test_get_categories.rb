@@ -22,11 +22,11 @@ class TestGetCategory
 						}, 
 				:test4 => {
 							:description => 'number', 
-							:lang => 123
+							:lang => '123'
 						}, 
 				:test5 => {
-							:description => 'nil class', 
-							:lang => nil
+							:description => 'unset language', 
+							:lang => ''
 						}
 			}
 
@@ -62,7 +62,7 @@ class TestGetCategory
 					STDOUT.puts Test::PASS
 				end
 			# special condition for out of support language
-			elsif val[:lang].is_a?(String)
+			elsif val[:lang].alphabet?
 				if categories.empty?
 					STDOUT.puts Test::FAIL
 				else
