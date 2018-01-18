@@ -12,6 +12,8 @@ require File.expand_path(File.dirname(__FILE__) + '/twicas_stream/category')
 require File.expand_path(File.dirname(__FILE__) + '/twicas_stream/search')
 require File.expand_path(File.dirname(__FILE__) + '/twicas_stream/version')
 
+require File.expand_path(File.dirname(__FILE__) + '/twicas_stream/twicas_api_object/error')
+
 require 'active_support/inflector'
 require 'curb'
 require 'json'
@@ -26,8 +28,6 @@ module TwicasStream
 			hash = Hash.new
 
 			response = response(result)
-			return hash unless response == 200
-
 			body = body(result)
 
 			body.each{ |key, value|
@@ -116,7 +116,7 @@ module TwicasStream
 		def is_TwicasApiObject? str
 			TwicasApiObject.constants.include?(str.singularize.capitalize.to_sym)
 			# TwicasApiObject.constants
-			# => [:App, :User, :Movie, :Comment, :SupporterUser, :SubCategory, :Category]
+			# => [:App, :User, :Movie, :Comment, :SupporterUser, :SubCategory, :Category, :Error]
 		end
 	end
 end
