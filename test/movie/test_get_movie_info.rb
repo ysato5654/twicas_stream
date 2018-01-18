@@ -49,14 +49,14 @@ class TestGetMovieInfo
 			STDOUT.puts
 
 			if val[:movie_id] == DEFAULT_MOVIE_ID
-				if movie_info.empty?
-					STDOUT.puts Test::FAIL
-				else
+				if movie_info.keys == [:movie, :broadcaster, :tags]
 					@pass_num += 1
 					STDOUT.puts Test::PASS
+				else
+					STDOUT.puts Test::FAIL
 				end
 			else
-				if movie_info.empty?
+				if movie_info.keys == [:error]
 					@pass_num += 1
 					STDOUT.puts Test::PASS
 				else

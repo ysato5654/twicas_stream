@@ -144,18 +144,18 @@ class TestSearchUsers
 	private
 	def passfail_for_words words, response
 		if words.empty?
-			if response.empty?
+			if response.keys == [:error]
 				@pass_num += 1
 				STDOUT.puts Test::PASS
 			else
 				STDOUT.puts Test::FAIL
 			end
 		else
-			if response.empty?
-				STDOUT.puts Test::FAIL
-			else
+			if response.keys == [:users]
 				@pass_num += 1
 				STDOUT.puts Test::PASS
+			else
+				STDOUT.puts Test::FAIL
 			end
 		end
 	end
@@ -164,15 +164,15 @@ class TestSearchUsers
 	def passfail_for_limit limit, response
 		# within limitation
 		if limit >= LOWER_LIMIT and limit <= UPPER_LIMIT
-			if response.empty?
-				STDOUT.puts Test::FAIL
-			else
+			if response.keys == [:users]
 				@pass_num += 1
 				STDOUT.puts Test::PASS
+			else
+				STDOUT.puts Test::FAIL
 			end
 		# out of limitation
 		else
-			if response.empty?
+			if response.keys == [:error]
 				@pass_num += 1
 				STDOUT.puts Test::PASS
 			else
@@ -184,22 +184,22 @@ class TestSearchUsers
 	private
 	def passfail_for_lang lang, response
 		if TwicasStream::Search::SearchUsers::LANG_LIMITATION.include?(lang)
-			if response.empty?
-				STDOUT.puts Test::FAIL
-			else
+			if response.keys == [:users]
 				@pass_num += 1
 				STDOUT.puts Test::PASS
+			else
+				STDOUT.puts Test::FAIL
 			end
 		# special condition for out of support language
 		elsif lang.is_a?(String)
-			if response.empty?
-				STDOUT.puts Test::FAIL
-			else
+			if response.keys == [:users]
 				@pass_num += 1
 				STDOUT.puts Test::PASS
+			else
+				STDOUT.puts Test::FAIL
 			end
 		else
-			if response.empty?
+			if response.keys == [:error]
 				@pass_num += 1
 				STDOUT.puts Test::PASS
 			else

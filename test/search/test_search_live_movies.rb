@@ -161,15 +161,15 @@ class TestSearchLiveMovies
 	def passfail_for_limit limit, response
 		# within limitation
 		if limit >= LOWER_LIMIT and limit <= UPPER_LIMIT
-			if response.empty?
-				STDOUT.puts Test::FAIL
-			else
+			if response.keys == [:movies]
 				@pass_num += 1
 				STDOUT.puts Test::PASS
+			else
+				STDOUT.puts Test::FAIL
 			end
 		# out of limitation
 		else
-			if response.empty?
+			if response.keys == [:error]
 				@pass_num += 1
 				STDOUT.puts Test::PASS
 			else
@@ -182,14 +182,14 @@ class TestSearchLiveMovies
 	def passfail_for_type type, response
 		# mismatch type
 		if TwicasStream::Search::SearchLiveMovies::TYPE_LIMITATION.include?(type)
-			if response.empty?
-				STDOUT.puts Test::FAIL
-			else
+			if response.keys == [:movies]
 				@pass_num += 1
 				STDOUT.puts Test::PASS
+			else
+				STDOUT.puts Test::FAIL
 			end
 		else
-			if response.empty?
+			if response.keys == [:error]
 				@pass_num += 1
 				STDOUT.puts Test::PASS
 			else
@@ -201,22 +201,22 @@ class TestSearchLiveMovies
 	private
 	def passfail_for_lang lang, search_users
 		if TwicasStream::Search::SearchUsers::LANG_LIMITATION.include?(lang)
-			if search_users.empty?
-				STDOUT.puts Test::FAIL
-			else
+			if search_users.keys == [:movies]
 				@pass_num += 1
 				STDOUT.puts Test::PASS
+			else
+				STDOUT.puts Test::FAIL
 			end
 		# special condition for out of support language
 		elsif lang.is_a?(String)
-			if search_users.empty?
-				STDOUT.puts Test::FAIL
-			else
+			if search_users.keys == [:movies]
 				@pass_num += 1
 				STDOUT.puts Test::PASS
+			else
+				STDOUT.puts Test::FAIL
 			end
 		else
-			if search_users.empty?
+			if search_users.keys == [:error]
 				@pass_num += 1
 				STDOUT.puts Test::PASS
 			else

@@ -231,6 +231,7 @@ end
 - SupporterUser
 - Category
 - SubCategory
+- Error
 
 ### Directory Structure
 
@@ -243,6 +244,8 @@ end
 │	├─	get_comments.rb					  
 │	├─	get_movie_info.rb				  
 │	├─	get_user_info.rb				  
+│	├─	search_live_movies.rb			  
+│	├─	search_users.rb					  
 │	└─	verify_credentials.rb			  
 ├─	/lib								  
 │	├─	/twicas_stream					  
@@ -286,7 +289,6 @@ end
 │	│	├─	test_get_user_info.rb		  
 │	│	└─	test_user.rb				  
 │	└─	test.rb							  
-├─	/tmp								  
 ├─	LICENSE								  
 └─	README.md							  
 ```

@@ -63,14 +63,14 @@ class TestGetCategory
 				end
 			# special condition for out of support language
 			elsif val[:lang].alphabet?
-				if categories.empty?
-					STDOUT.puts Test::FAIL
-				else
+				if categories.keys == [:categories]
 					@pass_num += 1
 					STDOUT.puts Test::PASS
+				else
+					STDOUT.puts Test::FAIL
 				end
 			else
-				if categories.empty?
+				if categories.keys == [:error]
 					@pass_num += 1
 					STDOUT.puts Test::PASS
 				else

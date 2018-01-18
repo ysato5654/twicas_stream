@@ -49,14 +49,14 @@ class TestGetUserInfo
 			STDOUT.puts
 
 			if val[:user_id] == DEFAULT_USER_ID
-				if user_info.empty?
-					STDOUT.puts Test::FAIL
-				else
+				if user_info.keys == [:user]
 					@pass_num += 1
 					STDOUT.puts Test::PASS
+				else
+					STDOUT.puts Test::FAIL
 				end
 			else
-				if user_info.empty?
+				if user_info.keys == [:error]
 					@pass_num += 1
 					STDOUT.puts Test::PASS
 				else

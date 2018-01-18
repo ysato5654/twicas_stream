@@ -98,14 +98,14 @@ class TestGetComments
 			STDOUT.puts
 
 			if key == :test1 or key == :test4 or key == :test6
-				if comments.empty?
-					STDOUT.puts Test::FAIL
-				else
+				if comments.keys == [:movie_id, :all_count, :comments]
 					@pass_num += 1
 					STDOUT.puts Test::PASS
+				else
+					STDOUT.puts Test::FAIL
 				end
 			else
-				if comments.empty?
+				if comments.keys == [:error]
 					@pass_num += 1
 					STDOUT.puts Test::PASS
 				else
