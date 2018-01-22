@@ -15,7 +15,7 @@ if $0 == __FILE__
 	api = TwicasStream::Movie::GetMovieInfo.new(movie_id)
 	movie_info = api.response[:movie]
 
-	exit(0) if api.response.empty?
+	exit(0) unless api.response[:error].nil?
 
 	STDOUT.puts
 

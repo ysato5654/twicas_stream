@@ -15,7 +15,7 @@ if $0 == __FILE__
 	api = TwicasStream::Category::GetCategories.new(lang)
 	categories = api.response[:categories]
 
-	exit(0) if api.response.empty?
+	exit(0) unless api.response[:error].nil?
 
 	STDOUT.puts
 

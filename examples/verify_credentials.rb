@@ -15,7 +15,19 @@ if $0 == __FILE__
 	app = api.response[:app]
 	user = api.response[:user]
 
-	exit(0) if api.response.empty?
+	unless api.response[:error].nil?
+		STDOUT.puts
+
+		STDOUT.puts '<Error Code>'
+		STDOUT.puts api.response[:error][:code]
+		STDOUT.puts
+
+		STDOUT.puts '<Error Message>'
+		STDOUT.puts api.response[:error][:message]
+		STDOUT.puts
+
+		exit(0)
+	end
 
 	STDOUT.puts
 

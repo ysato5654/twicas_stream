@@ -15,7 +15,7 @@ if $0 == __FILE__
 	api = TwicasStream::User::GetUserInfo.new(user_id)
 	user_info = api.response[:user]
 
-	exit(0) if api.response.empty?
+	exit(0) unless api.response[:error].nil?
 
 	STDOUT.puts
 

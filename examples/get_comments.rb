@@ -15,7 +15,7 @@ if $0 == __FILE__
 	api = TwicasStream::Comment::GetComments.new(movie_id)
 	comments = api.response[:comments]
 
-	exit(0) if api.response.empty?
+	exit(0) unless api.response[:error].nil?
 
 	STDOUT.puts
 

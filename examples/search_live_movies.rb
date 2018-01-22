@@ -18,7 +18,7 @@ if $0 == __FILE__
 	api = TwicasStream::Search::SearchLiveMovies.new(limit, type, context, lang)
 	movies = api.response[:movies]
 
-	exit(0) if api.response.empty?
+	exit(0) unless api.response[:error].nil?
 
 	STDOUT.puts '--------------------------------'
 	movies.each{ |movie|

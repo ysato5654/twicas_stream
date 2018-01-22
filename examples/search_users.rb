@@ -17,7 +17,7 @@ if $0 == __FILE__
 	api = TwicasStream::Search::SearchUsers.new(words, limit, lang)
 	users = api.response[:users]
 
-	exit(0) if api.response.empty?
+	exit(0) unless api.response[:error].nil?
 
 	STDOUT.puts
 
