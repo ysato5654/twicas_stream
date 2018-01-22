@@ -267,28 +267,15 @@ end
 │	│	├─	user.rb						  
 │	│	└─	version.rb					  
 │	└─	twicas_stream.rb				  
-├─	/test								  
-│	├─	/category						  
-│	│	├─	test_category.rb			  
-│	│	└─	test_get_categories.rb		  
-│	├─	/comment						  
-│	│	├─	test_comment.rb				  
-│	│	└─	test_get_comments.rb		  
-│	├─	/live_thumbnail					  
-│	│	└─	test_live_thumbnail.rb		  
-│	├─	/movie							  
-│	│	├─	test_get_movie_info.rb		  
-│	│	└─	test_movie.rb				  
-│	├─	/search							  
-│	│	├─	test_search.rb				  
-│	│	├─	test_search_live_movies.rb	  
-│	│	└─	test_search_users.rb		  
-│	├─	/support						  
-│	│	└─	test_support.rb				  
-│	├─	/user							  
-│	│	├─	test_get_user_info.rb		  
-│	│	└─	test_user.rb				  
-│	└─	test.rb							  
+├─	/spec								  
+│	├─	/twicas_stream					  
+│	│	├─	category_spec.rb			  
+│	│	├─	comment_spec.rb				  
+│	│	├─	movie_spec.rb				  
+│	│	├─	search_spec.rb				  
+│	│	└─	user_spec.rb				  
+│	└─	spec_helper.rb					  
+│	└─	twicas_stream_spec.rb			  
 ├─	LICENSE								  
 └─	README.md							  
 ```
