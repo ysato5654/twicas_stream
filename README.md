@@ -5,7 +5,7 @@ twicas_stream provides simple Ruby access to [TwitCasting](https://twitcasting.t
 ## Installation
 
 ```rb
-under construction
+gem install twicas_stream
 ```
 
 ## Documentation / Help
