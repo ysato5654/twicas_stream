@@ -25,9 +25,9 @@ module TwicasStream
 
 	class << self
 		def parse result
-			hash = Hash.new
+			response = Hash.new
 
-			response = response(result)
+			response_code = response_code(result)
 			body = body(result)
 
 			body.each{ |key, value|
@@ -45,25 +45,25 @@ module TwicasStream
 							array.push tmp
 						}
 
-						hash[key.to_sym] = array
+						response[key.to_sym] = array
 
 					else
-						hash[key.to_sym] = value.map{ |e| parse_deep(key, e) }
+						response[key.to_sym] = value.map{ |e| parse_deep(key, e) }
 
 					end
 
 				# here is a singular form of TwicasApiObject, also others are here
 				else
-					hash[key.to_sym] = parse_deep(key, value)
+					response[key.to_sym] = parse_deep(key, value)
 
 				end
 			}
 
-			hash
+			response
 		end
 
-		def response result
-			result[:response]
+		def response_code result
+			result[:response_code]
 		end
 
 		def body result
@@ -79,7 +79,7 @@ module TwicasStream
 				end
 			end
 
-			{ :body => JSON.parse(c.body_str), :response => c.response_code }
+			{ :body => JSON.parse(c.body_str), :response_code => c.response_code }
 		end
 
 		def make_query_string options
