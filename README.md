@@ -280,17 +280,3 @@ end
 └─	README.md							  
 ```
 
-### Test
-
-#### execution of all test
-
-```rb
-ruby Test.rb
-```
-
-#### execution of each test
-
-```rb
-ruby TestUser.rb
-```
-
