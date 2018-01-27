@@ -17,6 +17,7 @@ require File.expand_path(File.dirname(__FILE__) + '/twicas_stream/twicas_api_obj
 require 'active_support/inflector'
 require 'curb'
 require 'json'
+require 'open-uri'
 
 module TwicasStream
 	extend RequestHeader
@@ -29,6 +30,7 @@ module TwicasStream
 
 			response_code = response_code(result)
 			body = body(result)
+			header = header(result)
 
 			body.each{ |key, value|
 				# here is the plural form of TwicasStream
@@ -70,6 +72,10 @@ module TwicasStream
 			result[:body]
 		end
 
+		def header result
+			result[:header]
+		end
+
 		def get url
 			c = Curl.get(url) do |curl|
 				TwicasStream.configure do |request_header|
@@ -79,7 +85,19 @@ module TwicasStream
 				end
 			end
 
-			{ :body => JSON.parse(c.body_str), :response_code => c.response_code }
+			response, *headers = c.header_str.split(/[\r\n]+/).map(&:strip)
+			headers = Hash[headers.flat_map{ |s| s.scan(/^(\S+): (.+)/) }]
+
+			{ :header => headers, :body => JSON.parse(c.body_str), :response_code => c.response_code }
+		end
+
+		def get_image url, path
+			c = Curl.get(url)
+
+			response, *headers = c.header_str.split(/[\r\n]+/).map(&:strip)
+			headers = Hash[headers.flat_map{ |s| s.scan(/^(\S+): (.+)/) }]
+
+			save_image(path, headers['Location'])
 		end
 
 		def make_query_string options
@@ -117,6 +135,18 @@ module TwicasStream
 			TwicasApiObject.constants.include?(str.singularize.capitalize.to_sym)
 			# TwicasApiObject.constants
 			# => [:App, :User, :Movie, :Comment, :SupporterUser, :SubCategory, :Category, :Error]
+		end
+
+		private
+		def save_image path, image_url
+			filepath = path + File.basename(image_url)
+			File.open(filepath, 'wb') do |file|
+				open(image_url) do |data|
+					file.write(data.read)
+				end
+			end
+
+			filepath
 		end
 	end
 end
