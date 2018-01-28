@@ -34,6 +34,11 @@ module TwicasStream
 					return
 				end
 
+				if user_id.empty?
+					STDERR.puts "#{__FILE__}:#{__LINE__}:Error: user_id is empty."
+					return
+				end
+
 				unless SIZE_LIMITATION.include?(size)
 					STDERR.puts "#{__FILE__}:#{__LINE__}:Warning: out of limitation. support size are '#{SIZE_LIMITATION.join("' or '")}'."
 				end
