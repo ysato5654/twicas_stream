@@ -139,10 +139,16 @@ module TwicasStream
 
 		private
 		def save_image path, image_url
-			filepath = path + File.basename(image_url)
-			File.open(filepath, 'wb') do |file|
-				open(image_url) do |data|
-					file.write(data.read)
+			begin
+				filepath = path + File.basename(image_url)
+			rescue Exception => e
+				STDERR.puts "#{__FILE__}:#{__LINE__}:Error: #{e.message}"
+				filepath = ''
+			else
+				File.open(filepath, 'wb') do |file|
+					open(image_url) do |data|
+						file.write(data.read)
+					end
 				end
 			end
 
