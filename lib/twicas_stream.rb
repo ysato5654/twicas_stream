@@ -53,6 +53,8 @@ module TwicasStream
 						response[key.to_sym] = value.map{ |i| parse_deep(key, i) }
 
 					end
+				# following keys is actually TwicasApiObject as 'SupporterUser', but is_TwicasApiObject?(key) = false
+				# so, we prepare special support as below
 				elsif key == 'supporting' or key == 'supporters'
 					response[key.to_sym] = value.map{ |i| parse_deep('SupporterUser', i) }
 
@@ -114,7 +116,7 @@ module TwicasStream
 		private
 		def parse_deep key, value
 			if is_TwicasApiObject?(key)
-				str = [self.to_s, 'TwicasApiObject', key.singularize].join('::')
+				str = [self.to_s, 'TwicasApiObject', key.singularize.camelize].join('::')
 				api = Object.const_get(str).new(value)
 
 				return api.object
@@ -134,7 +136,7 @@ module TwicasStream
 
 		private
 		def is_TwicasApiObject? str
-			TwicasApiObject.constants.include?(str.singularize.to_sym)
+			TwicasApiObject.constants.include?(str.singularize.camelize.to_sym)
 			# TwicasApiObject.constants
 			# => [:App, :User, :Movie, :Comment, :SupporterUser, :SubCategory, :Category, :Error]
 		end
