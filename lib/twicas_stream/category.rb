@@ -44,7 +44,7 @@ module TwicasStream
 
 				param['lang'] = lang
 
-				url = BASE_URL + '/' + PREFIX_URL + TwicasStream.make_query_string(param)
+				url = [BASE_URL, PREFIX_URL].join('/') + TwicasStream.make_query_string(param)
 				# => 'https://apiv2.twitcasting.tv/categories?lang=ja'
 
 				@response = TwicasStream.parse(TwicasStream.get(url))

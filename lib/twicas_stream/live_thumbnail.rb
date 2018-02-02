@@ -45,7 +45,7 @@ module TwicasStream
 				param['size'] = size
 				param['position'] = position
 
-				url = BASE_URL + '/' + PREFIX_URL + '/' + user_id + '/' + INFIX_URL + '/' + SUFFIX_URL + TwicasStream.make_query_string(param)
+				url = [BASE_URL, PREFIX_URL, user_id, INFIX_URL, SUFFIX_URL].join('/') + TwicasStream.make_query_string(param)
 				# => 'https://apiv2.twitcasting.tv/users/twitcasting_jp/live/thumbnail?size=small&position=latest'
 
 				@filepath = TwicasStream.get_image(url, path)

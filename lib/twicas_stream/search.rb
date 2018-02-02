@@ -73,7 +73,7 @@ module TwicasStream
 				param['limit'] = limit
 				param['lang'] = lang
 
-				url = BASE_URL + '/' + PREFIX_URL + '/' + SUFFIX_URL + TwicasStream.make_query_string(param)
+				url = [BASE_URL, PREFIX_URL, SUFFIX_URL].join('/') + TwicasStream.make_query_string(param)
 				# => 'https://apiv2.twitcasting.tv/search/users?words=ツイキャス+公式&limit=10&lang=ja'
 
 				@response = TwicasStream.parse(TwicasStream.get(url))
@@ -168,7 +168,7 @@ module TwicasStream
 =end
 				param['lang'] = lang
 
-				url = BASE_URL + '/' + PREFIX_URL + '/' + SUFFIX_URL + TwicasStream.make_query_string(param)
+				url = [BASE_URL, PREFIX_URL, SUFFIX_URL].join('/') + TwicasStream.make_query_string(param)
 				# => 'https://apiv2.twitcasting.tv/search/lives?limit=10&type=recommend&lang=ja'
 
 				@response = TwicasStream.parse(TwicasStream.get(url))

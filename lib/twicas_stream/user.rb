@@ -14,7 +14,7 @@ module TwicasStream
 			def initialize user_id
 				@response = Hash.new
 
-				url = BASE_URL + '/' + PREFIX_URL + '/' + user_id
+				url = [BASE_URL, PREFIX_URL, user_id].join('/')
 				# => 'https://apiv2.twitcasting.tv/users/:user_id'
 
 				@response = TwicasStream.parse(TwicasStream.get(url))
@@ -29,7 +29,7 @@ module TwicasStream
 			def initialize
 				@response = Hash.new
 
-				url = BASE_URL + '/' + PREFIX_URL
+				url = [BASE_URL, PREFIX_URL].join('/')
 				# => 'https://apiv2.twitcasting.tv/verify_credentials'
 
 				@response = TwicasStream.parse(TwicasStream.get(url))

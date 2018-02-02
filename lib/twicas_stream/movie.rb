@@ -53,7 +53,7 @@ module TwicasStream
 			def initialize movie_id
 				@response = Hash.new
 
-				url = BASE_URL + '/' + PREFIX_URL + '/' + movie_id
+				url = [BASE_URL, PREFIX_URL, movie_id].join('/')
 				# => 'https://apiv2.twitcasting.tv/movies/:movie_id'
 
 				@response = TwicasStream.parse(TwicasStream.get(url))

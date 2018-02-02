@@ -19,7 +19,7 @@ module TwicasStream
 
 				param['target_user_id'] = target_user_id
 
-				url = BASE_URL + '/' + PREFIX_URL + '/' + user_id + '/' + SUFFIX_URL + TwicasStream.make_query_string(param)
+				url = [BASE_URL, PREFIX_URL, user_id, SUFFIX_URL].join('/') + TwicasStream.make_query_string(param)
 				# => 'https://apiv2.twitcasting.tv/users/:user_id/supporting_status?target_user_id=casma_jp'
 
 				@response = TwicasStream.parse(TwicasStream.get(url))
@@ -64,7 +64,7 @@ module TwicasStream
 				param['offset'] = offset
 				param['limit'] = limit
 
-				url = BASE_URL + '/' + PREFIX_URL + '/' + user_id + '/' + SUFFIX_URL + TwicasStream.make_query_string(param)
+				url = [BASE_URL, PREFIX_URL, user_id, SUFFIX_URL].join('/') + TwicasStream.make_query_string(param)
 				# => 'https://apiv2.twitcasting.tv/users/twitcasting_jp/supporting?offset=10&limit=20'
 
 				@response = TwicasStream.parse(TwicasStream.get(url))
@@ -110,7 +110,7 @@ module TwicasStream
 				param['limit'] = limit
 				param['sort'] = sort
 
-				url = BASE_URL + '/' + PREFIX_URL + '/' + user_id + '/' + SUFFIX_URL + TwicasStream.make_query_string(param)
+				url = [BASE_URL, PREFIX_URL, user_id, SUFFIX_URL].join('/') + TwicasStream.make_query_string(param)
 				# => 'https://apiv2.twitcasting.tv/users/twitcasting_jp/supporting?offset=10&limit=20'
 
 				@response = TwicasStream.parse(TwicasStream.get(url))

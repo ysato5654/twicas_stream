@@ -60,7 +60,7 @@ module TwicasStream
 				param['limit'] = limit
 				param['slice_id'] = slice_id unless slice_id == DEFAULT_SLICE_ID
 
-				url = BASE_URL + '/' + PREFIX_URL + '/' + movie_id + '/' + SUFFIX_URL + TwicasStream.make_query_string(param)
+				url = [BASE_URL, PREFIX_URL, movie_id, SUFFIX_URL].join('/') + TwicasStream.make_query_string(param)
 				# => 'https://apiv2.twitcasting.tv/movies/:movie_id/comments?offset=0&limit=10'
 
 				@response = TwicasStream.parse(TwicasStream.get(url))
