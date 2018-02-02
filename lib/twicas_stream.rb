@@ -50,9 +50,11 @@ module TwicasStream
 						response[key.to_sym] = array
 
 					else
-						response[key.to_sym] = value.map{ |e| parse_deep(key, e) }
+						response[key.to_sym] = value.map{ |i| parse_deep(key, i) }
 
 					end
+				elsif key == 'supporting' or key == 'supporters'
+					response[key.to_sym] = value.map{ |i| parse_deep('SupporterUser', i) }
 
 				# here is a singular form of TwicasApiObject, also others are here
 				else
@@ -112,13 +114,13 @@ module TwicasStream
 		private
 		def parse_deep key, value
 			if is_TwicasApiObject?(key)
-				str = [self.to_s, 'TwicasApiObject', key.singularize.capitalize].join('::')
+				str = [self.to_s, 'TwicasApiObject', key.singularize].join('::')
 				api = Object.const_get(str).new(value)
 
 				return api.object
 
-			# called by 'GetMovieInfo' method
-			elsif key == 'broadcaster'
+			# called by 'GetMovieInfo' or 'GetSupportingStatus' method
+			elsif key == 'broadcaster' or key == 'target_user'
 				str = [self.to_s, 'TwicasApiObject', 'User'].join('::')
 				api = Object.const_get(str).new(value)
 
@@ -132,7 +134,7 @@ module TwicasStream
 
 		private
 		def is_TwicasApiObject? str
-			TwicasApiObject.constants.include?(str.singularize.capitalize.to_sym)
+			TwicasApiObject.constants.include?(str.singularize.to_sym)
 			# TwicasApiObject.constants
 			# => [:App, :User, :Movie, :Comment, :SupporterUser, :SubCategory, :Category, :Error]
 		end
