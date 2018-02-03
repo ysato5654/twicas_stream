@@ -1,6 +1,6 @@
 # twicas_stream
 
-twicas_stream provides simple Ruby access to [TwitCasting](https://twitcasting.tv/) API.
+[twicas_stream](https://rubygems.org/gems/twicas_stream) provides simple Ruby access to [TwitCasting](https://twitcasting.tv/) API.
 
 ## Installation
 
@@ -97,18 +97,18 @@ Current version supports following requests.
 |:---------------|:-------------------------|:------------:|
 | User           | Get User Info            | Support |
 |                | Verify Credentials       | Support |
-| Live Thumbnail | Get Live Thumbnail Image | Not Support |
+| Live Thumbnail | Get Live Thumbnail Image | Support |
 | Movie          | Get Movie Info           | Support |
 |                | Get Movies by User       | Not Support |
 |                | Get Current Live         | Not Support |
 | Comment        | Get Comments             | Support |
 |                | Post Comment             | Not Support |
 |                | Delete Comment           | Not Support |
-| Supporter      | Get Supporting Status    | Not Support |
+| Supporter      | Get Supporting Status    | Support |
 |                | Support User             | Not Support |
 |                | Unsupport User           | Not Support |
-|                | Supporting List          | Not Support |
-|                | Supporter List           | Not Support |
+|                | Supporting List          | Support |
+|                | Supporter List           | Support |
 | Category       | Get Categories           | Support |
 | Search         | Search Users             | Support |
 |                | Search Live Movies       | Support |
