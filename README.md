@@ -102,22 +102,24 @@ Current version supports following requests.
 |                | Get Movies by User       | Not Support |
 |                | Get Current Live         | Not Support |
 | Comment        | Get Comments             | Support |
-|                | Post Comment             | Not Support |
-|                | Delete Comment           | Not Support |
+|                | Post Comment             | Not Support (*) |
+|                | Delete Comment           | Not Support (*) |
 | Supporter      | Get Supporting Status    | Support |
-|                | Support User             | Not Support |
-|                | Unsupport User           | Not Support |
+|                | Support User             | Not Support (*) |
+|                | Unsupport User           | Not Support (*) |
 |                | Supporting List          | Support |
 |                | Supporter List           | Support |
 | Category       | Get Categories           | Support |
 | Search         | Search Users             | Support |
 |                | Search Live Movies       | Support |
 
+(*) 'POST/DELETE/PUT' HTTP method. Current version supports 'GET' method only.
+
 ---
 
-## Appendix
+## Development
 
-Here is for developer of twicas_stream
+Here is for developer
 
 ### Preparation before developing
 
@@ -263,7 +265,7 @@ end
 │	│	├─	movie.rb					  
 │	│	├─	request_header.rb			  
 │	│	├─	search.rb					  
-│	│	├─	support.rb					  
+│	│	├─	supporter.rb				  
 │	│	├─	user.rb						  
 │	│	└─	version.rb					  
 │	└─	twicas_stream.rb				  
@@ -271,8 +273,10 @@ end
 │	├─	/twicas_stream					  
 │	│	├─	category_spec.rb			  
 │	│	├─	comment_spec.rb				  
+│	│	├─	live_thumbnail_spec.rb		  
 │	│	├─	movie_spec.rb				  
 │	│	├─	search_spec.rb				  
+│	│	├─	supporter_spec.rb			  
 │	│	└─	user_spec.rb				  
 │	└─	spec_helper.rb					  
 │	└─	twicas_stream_spec.rb			  
