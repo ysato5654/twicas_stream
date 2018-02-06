@@ -53,4 +53,14 @@ RSpec.describe TwicasStream::User do
 			end
 		end
 	end
+
+	describe 'VerifyCredentials' do
+		let :api do
+			TwicasStream::User::VerifyCredentials.new
+		end
+
+		it '' do
+			expect(api.response.keys).to eq([:app, :user])
+		end
+	end
 end
