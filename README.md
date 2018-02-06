@@ -1,3 +1,7 @@
+[![Gem Version](https://badge.fury.io/rb/twicas_stream.svg)](https://badge.fury.io/rb/twicas_stream)
+[![Build Status](https://travis-ci.org/ysato5654/twicas_stream.svg?branch=master)](https://travis-ci.org/ysato5654/twicas_stream)
+[![Coverage Status](https://coveralls.io/repos/github/ysato5654/twicas_stream/badge.svg?branch=master)](https://coveralls.io/github/ysato5654/twicas_stream?branch=master)
+
 # twicas_stream
 
 [twicas_stream](https://rubygems.org/gems/twicas_stream) provides simple Ruby access to [TwitCasting](https://twitcasting.tv/) API.
@@ -120,6 +124,9 @@ Current version supports following requests.
 ## Development
 
 Here is for developer
+
+[![Build Status](https://travis-ci.org/ysato5654/twicas_stream.svg?branch=develop)](https://travis-ci.org/ysato5654/twicas_stream)
+[![Coverage Status](https://coveralls.io/repos/github/ysato5654/twicas_stream/badge.svg?branch=develop)](https://coveralls.io/github/ysato5654/twicas_stream?branch=develop)
 
 ### Preparation before developing
 
