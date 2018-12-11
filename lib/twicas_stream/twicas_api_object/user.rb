@@ -16,9 +16,9 @@ module TwicasStream
 							:level            => elements['level'],
 							:last_movie_id    => elements['last_movie_id'],
 							:is_live          => elements['is_live'],
-							:supporter_count  => elements['supporter_count'],
-							:supporting_count => elements['supporting_count'],
-							:created          => elements['created']
+							:supporter_count  => elements['supporter_count'], # deprecated (2018/09/03's change log)
+							:supporting_count => elements['supporting_count'], # deprecated (2018/09/03's change log)
+							:created          => elements['created'] # deprecated (2018/08/03's change log)
 						}
 			end
 		end
