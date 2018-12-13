@@ -41,9 +41,9 @@ module TwicasStream
 						   # 						:level => 24,
 						   # 						:last_movie_id => "189037369",
 						   # 						:is_live => true,
-						   # 						:supporter_count =>  10,
-						   # 						:supporting_count =>  24,
-						   # 						:created => 1282620640
+						   # 						:supporter_count => 0,
+						   # 						:supporting_count => 0,
+						   # 						:created => 0
 						   # 					},
 						   # 	:tags => ["人気", "コンティニュー中", "レベル40+", "初見さん大歓迎", "まったり", "雑談"]
 						   # }

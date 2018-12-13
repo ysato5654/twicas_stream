@@ -28,7 +28,7 @@ RSpec.describe TwicasStream::User do
 				end
 
 				it '' do
-					expect(user_info.keys).to eq([:user])
+					expect(user_info.keys).to eq([:supporter_count, :supporting_count, :user])
 				end
 			end
 
@@ -60,7 +60,7 @@ RSpec.describe TwicasStream::User do
 		end
 
 		it '' do
-			expect(api.response.keys).to eq([:app, :user])
+			expect(api.response.keys).to eq([:app, :supporter_count, :supporting_count, :user])
 		end
 	end
 end

@@ -4,7 +4,7 @@
 
 # twicas_stream
 
-[twicas_stream](https://rubygems.org/gems/twicas_stream) provides simple Ruby access to [TwitCasting](https://twitcasting.tv/) API.
+[twicas_stream](https://rubygems.org/gems/twicas_stream) provides simple Ruby access to [TwitCasting](https://twitcasting.tv/) APIv2(β).
 
 ## Installation
 
@@ -125,6 +125,8 @@ Response data of 'Get User Info' is as below.
 
 ```rb
 {
+	:supporter_count => 10,
+	:supporting_count => 24,
 	:user => {
 		:id => "182224938",
 		:screen_id => "twitcasting_jp",
@@ -134,9 +136,9 @@ Response data of 'Get User Info' is as below.
 		:level => 24,
 		:last_movie_id => "189037369",
 		:is_live => false,
-		:supporter_count => 10,
-		:supporting_count => 24,
-		:created => 1282620640
+		:supporter_count => 0,
+		:supporting_count => 0,
+		:created => 0
 	}
 }
 ```
@@ -177,9 +179,9 @@ Response data of 'Get User Info' is as below.
 		:level => 24,
 		:last_movie_id => "189037369",
 		:is_live => true,
-		:supporter_count =>  10,
-		:supporting_count =>  24,
-		:created => 1282620640
+		:supporter_count => 0,
+		:supporting_count => 0,
+		:created => 0
 	},
 	:tags => ["人気", "コンティニュー中", "レベル40+", "初見さん大歓迎", "まったり", "雑談"]
 }
