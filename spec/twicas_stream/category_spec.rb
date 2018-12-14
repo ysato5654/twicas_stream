@@ -44,7 +44,7 @@ RSpec.describe TwicasStream::Category do
 				end
 
 				it '' do
-					expect(categories.keys).to eq([:categories])
+					expect(categories.keys).to eq([:error])
 				end
 			end
 

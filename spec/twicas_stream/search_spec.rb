@@ -156,7 +156,7 @@ RSpec.describe TwicasStream::Search do
 				end
 
 				it '' do
-					expect(search_users.keys).to eq([:users])
+					expect(search_users.keys).to eq([:error])
 				end
 			end
 
@@ -170,7 +170,7 @@ RSpec.describe TwicasStream::Search do
 				end
 
 				it '' do
-					expect(search_users.keys).to eq([:users])
+					expect(search_users.keys).to eq([:error])
 				end
 			end
 
