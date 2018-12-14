@@ -16,6 +16,7 @@ RSpec.describe TwicasStream::Comment do
 			LOWER_LIMIT      = TwicasStream::Comment::GetComments::LOWER_LIMIT
 			UPPER_LIMIT      = TwicasStream::Comment::GetComments::UPPER_LIMIT
 			DEFAULT_SLICE_ID = TwicasStream::Comment::GetComments::DEFAULT_SLICE_ID
+			LOWER_SLICE_ID   = TwicasStream::Comment::GetComments::LOWER_SLICE_ID
 		end
 
 		subject :comments do
@@ -135,6 +136,87 @@ RSpec.describe TwicasStream::Comment do
 					it '' do
 						expect(comments.keys).to eq([:error])
 					end
+				end
+			end
+		end
+
+		context 'slice id is' do
+			context 'within limitation' do
+				context 'equal to lower limit' do
+					let :param do
+						{
+							:movie_id => DEFAULT_MOVIE_ID,
+							:offset => DEFAULT_OFFSET,
+							:limit => DEFAULT_LIMIT,
+							:slice_id => LOWER_SLICE_ID
+						}
+					end
+
+					it '' do
+						expect(comments.keys).to eq([:movie_id, :all_count, :comments])
+					end
+				end
+			end
+
+			context 'out of limitation' do
+				context 'less than lower limit' do
+					let :param do
+						{
+							:movie_id => DEFAULT_MOVIE_ID,
+							:offset => DEFAULT_OFFSET,
+							:limit => DEFAULT_LIMIT,
+							:slice_id => LOWER_SLICE_ID - 1
+						}
+					end
+
+					it '' do
+						expect(comments.keys).to eq([:error])
+					end
+				end
+			end
+
+			context 'none (default)' do
+				let :param do
+					{
+						:movie_id => DEFAULT_MOVIE_ID,
+						:offset => DEFAULT_OFFSET,
+						:limit => DEFAULT_LIMIT,
+						:slice_id => DEFAULT_SLICE_ID
+					}
+				end
+
+				it '' do
+					expect(comments.keys).to eq([:movie_id, :all_count, :comments])
+				end
+			end
+
+			context 'incorrect string' do
+				let :param do
+					{
+						:movie_id => DEFAULT_MOVIE_ID,
+						:offset => DEFAULT_OFFSET,
+						:limit => DEFAULT_LIMIT,
+						:slice_id => DEFAULT_SLICE_ID + 'hogehoge'
+					}
+				end
+
+				it '' do
+					expect(comments.keys).to eq([:error])
+				end
+			end
+
+			context 'empty string' do
+				let :param do
+					{
+						:movie_id => DEFAULT_MOVIE_ID,
+						:offset => DEFAULT_OFFSET,
+						:limit => DEFAULT_LIMIT,
+						:slice_id => ''
+					}
+				end
+
+				it '' do
+					expect(comments.keys).to eq([:error])
 				end
 			end
 		end
