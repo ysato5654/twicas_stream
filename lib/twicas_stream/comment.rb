@@ -48,12 +48,24 @@ module TwicasStream
 
 			DEFAULT_SLICE_ID = 'none'
 
+			LOWER_SLICE_ID = 1
+
 			def initialize movie_id, offset = DEFAULT_OFFSET, limit = DEFAULT_LIMIT, slice_id = DEFAULT_SLICE_ID
 				@response = Hash.new
 				param = Hash.new
 
 				unless limit >= LOWER_LIMIT and limit <= UPPER_LIMIT
 					STDERR.puts "#{__FILE__}:#{__LINE__}:Warning: out of limitation. limitation range is #{LOWER_LIMIT} ~ #{UPPER_LIMIT}."
+				end
+
+				if slice_id.kind_of?(Integer)
+					if slice_id < LOWER_SLICE_ID
+						STDERR.puts "#{__FILE__}:#{__LINE__}:Warning: out of limitation. slice id (comment id) should be over than #{LOWER_SLICE_ID}."
+					end
+				else
+					unless slice_id == DEFAULT_SLICE_ID
+						STDERR.puts "#{__FILE__}:#{__LINE__}:Error: invalid parameter. default is '#{DEFAULT_SLICE_ID}'."
+					end
 				end
 
 				param['offset'] = offset
