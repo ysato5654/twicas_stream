@@ -54,7 +54,7 @@ module TwicasStream
 				param = Hash.new
 
 				if offset < LOWER_OFFSET
-					STDERR.puts "#{__FILE__}:#{__LINE__}:Warning: out of limitation. offset should be over than #{LOWER_OFFSET}."
+					STDERR.puts "#{__FILE__}:#{__LINE__}:Warning: out of limitation. offset should be over #{LOWER_OFFSET}."
 				end
 
 				unless limit >= LOWER_LIMIT and limit <= UPPER_LIMIT
@@ -95,7 +95,7 @@ module TwicasStream
 				param = Hash.new
 
 				if offset < LOWER_OFFSET
-					STDERR.puts "#{__FILE__}:#{__LINE__}:Warning: out of limitation. offset should be over than #{LOWER_OFFSET}."
+					STDERR.puts "#{__FILE__}:#{__LINE__}:Warning: out of limitation. offset should be over #{LOWER_OFFSET}."
 				end
 
 				unless limit >= LOWER_LIMIT and limit <= UPPER_LIMIT

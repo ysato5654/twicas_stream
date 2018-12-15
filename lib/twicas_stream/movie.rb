@@ -97,7 +97,7 @@ module TwicasStream
 
 				if slice_id.kind_of?(Integer)
 					if slice_id < LOWER_SLICE_ID
-						STDERR.puts "#{__FILE__}:#{__LINE__}:Warning: out of limitation. slice id (comment id) should be over than #{LOWER_SLICE_ID}."
+						STDERR.puts "#{__FILE__}:#{__LINE__}:Warning: out of limitation. slice id (comment id) should be over #{LOWER_SLICE_ID}."
 					end
 				else
 					unless slice_id == DEFAULT_SLICE_ID
