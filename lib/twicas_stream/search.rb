@@ -62,7 +62,7 @@ module TwicasStream
 				end
 
 				unless limit >= LOWER_LIMIT and limit <= UPPER_LIMIT
-					STDERR.puts "#{__FILE__}:#{__LINE__}:Warning: out of limitation. limitation range is #{LOWER_LIMIT} ~ #{UPPER_LIMIT}."
+					STDERR.puts "#{__FILE__}:#{__LINE__}:Warning: out of limitation. limit range is #{LOWER_LIMIT} ~ #{UPPER_LIMIT}."
 				end
 
 				unless LANG_LIMITATION.include?(lang)
@@ -144,7 +144,7 @@ module TwicasStream
 				param = Hash.new
 
 				unless limit >= LOWER_LIMIT and limit <= UPPER_LIMIT
-					STDERR.puts "#{__FILE__}:#{__LINE__}:Warning: out of limitation. limitation range is #{LOWER_LIMIT} ~ #{UPPER_LIMIT}"
+					STDERR.puts "#{__FILE__}:#{__LINE__}:Warning: out of limitation. limit range is #{LOWER_LIMIT} ~ #{UPPER_LIMIT}"
 				end
 
 				unless TYPE_LIMITATION.include?(type)

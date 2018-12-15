@@ -58,7 +58,7 @@ module TwicasStream
 				end
 
 				unless limit >= LOWER_LIMIT and limit <= UPPER_LIMIT
-					STDERR.puts "#{__FILE__}:#{__LINE__}:Warning: out of limitation. limitation range is #{LOWER_LIMIT} ~ #{UPPER_LIMIT}."
+					STDERR.puts "#{__FILE__}:#{__LINE__}:Warning: out of limitation. limit range is #{LOWER_LIMIT} ~ #{UPPER_LIMIT}."
 				end
 
 				param['offset'] = offset
@@ -99,7 +99,7 @@ module TwicasStream
 				end
 
 				unless limit >= LOWER_LIMIT and limit <= UPPER_LIMIT
-					STDERR.puts "#{__FILE__}:#{__LINE__}:Warning: out of limitation. limitation range is #{LOWER_LIMIT} ~ #{UPPER_LIMIT}."
+					STDERR.puts "#{__FILE__}:#{__LINE__}:Warning: out of limitation. limit range is #{LOWER_LIMIT} ~ #{UPPER_LIMIT}."
 				end
 
 				unless SORT_LIMITATION.include?(sort)
