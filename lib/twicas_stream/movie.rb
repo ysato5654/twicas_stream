@@ -61,9 +61,78 @@ module TwicasStream
 		end
 
 		class GetMoviesbyUser
+			attr_reader :response
+
+			PREFIX_URL = 'users'
+
+			SUFFIX_URL = 'movies'
+
+			DEFAULT_OFFSET = 0
+
+			LOWER_OFFSET = 0
+
+			UPPER_OFFSET = 1000
+
+			DEFAULT_LIMIT = 20
+
+			LOWER_LIMIT = 1
+
+			UPPER_LIMIT = 50
+
+			DEFAULT_SLICE_ID = 'none'
+
+			LOWER_SLICE_ID = 1
+
+			def initialize user_id, offset = DEFAULT_OFFSET, limit = DEFAULT_LIMIT, slice_id = DEFAULT_SLICE_ID
+				@response = Hash.new
+				param = Hash.new
+
+				unless offset >= LOWER_OFFSET and offset <= UPPER_OFFSET
+					STDERR.puts "#{__FILE__}:#{__LINE__}:Warning: out of limitation. offset range is #{LOWER_OFFSET} ~ #{UPPER_OFFSET}."
+				end
+
+				unless limit >= LOWER_LIMIT and limit <= UPPER_LIMIT
+					STDERR.puts "#{__FILE__}:#{__LINE__}:Warning: out of limitation. limit range is #{LOWER_LIMIT} ~ #{UPPER_LIMIT}."
+				end
+
+				if slice_id.kind_of?(Integer)
+					if slice_id < LOWER_SLICE_ID
+						STDERR.puts "#{__FILE__}:#{__LINE__}:Warning: out of limitation. slice id (comment id) should be over than #{LOWER_SLICE_ID}."
+					end
+				else
+					unless slice_id == DEFAULT_SLICE_ID
+						STDERR.puts "#{__FILE__}:#{__LINE__}:Error: invalid parameter. default is '#{DEFAULT_SLICE_ID}'."
+					end
+				end
+
+				param['offset'] = offset
+				param['limit'] = limit
+				param['slice_id'] = slice_id unless slice_id == DEFAULT_SLICE_ID
+
+				url = [BASE_URL, PREFIX_URL, user_id, SUFFIX_URL].join('/') + TwicasStream.make_query_string(param)
+				#url = BASE_URL + '/' + PREFIX_URL + '/' + user_id + '/' + SUFFIX_URL + TwicasStream.make_query_string(param)
+				# => 'https://apiv2.twitcasting.tv/users/:user_id/movies?offset=0&limit=20'
+
+				@response = TwicasStream.parse(TwicasStream.get(url))
+			end
 		end
 
 		class GetCurrentLive
+			attr_reader :response
+
+			PREFIX_URL = 'users'
+
+			SUFFIX_URL = 'current_live'
+
+			def initialize user_id
+				@response = Hash.new
+
+				#url = [BASE_URL, PREFIX_URL, user_id, SUFFIX_URL].join('/')
+				url = BASE_URL + '/' + PREFIX_URL + '/' + user_id + '/' + SUFFIX_URL
+				# => 'https://apiv2.twitcasting.tv/users/:user_id/current_live'
+
+				@response = TwicasStream.parse(TwicasStream.get(url))
+			end
 		end
 	end
 end
