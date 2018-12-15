@@ -40,6 +40,8 @@ module TwicasStream
 
 			DEFAULT_OFFSET = 0
 
+			LOWER_OFFSET = 0
+
 			DEFAULT_LIMIT = 10
 
 			LOWER_LIMIT = 1
@@ -53,6 +55,10 @@ module TwicasStream
 			def initialize movie_id, offset = DEFAULT_OFFSET, limit = DEFAULT_LIMIT, slice_id = DEFAULT_SLICE_ID
 				@response = Hash.new
 				param = Hash.new
+
+				if offset < LOWER_OFFSET
+					STDERR.puts "#{__FILE__}:#{__LINE__}:Warning: out of limitation. offset range should be over #{LOWER_OFFSET}."
+				end
 
 				unless limit >= LOWER_LIMIT and limit <= UPPER_LIMIT
 					STDERR.puts "#{__FILE__}:#{__LINE__}:Warning: out of limitation. limit range is #{LOWER_LIMIT} ~ #{UPPER_LIMIT}."
