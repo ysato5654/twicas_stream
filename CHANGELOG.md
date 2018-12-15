@@ -1,10 +1,10 @@
 ## v1.2.2
-[full changelog](http://github.com/ysato5654/twicas_stream/compare/v1.2.2...v1.2.1)
+[full changelog](http://github.com/ysato5654/twicas_stream/compare/v1.2.1...v1.2.2)
 
 * improve reliability
 
 ## v1.2.1
-[full changelog](http://github.com/ysato5654/twicas_stream/compare/v1.2.1...v1.2.0)
+[full changelog](http://github.com/ysato5654/twicas_stream/compare/v1.2.0...v1.2.1)
 
 * improve reliability
 
