@@ -97,7 +97,7 @@ RSpec.describe TwicasStream::Supporter do
 
 	describe 'SupportingList' do
 		before :context do
-			DEFAULT_USER_ID = 'twitcasting_jp'
+			DEFAULT_USER_ID = 'twitcasting_dev'
 			DEFAULT_OFFSET  = TwicasStream::Supporter::SupportingList::DEFAULT_OFFSET
 			LOWER_OFFSET    = TwicasStream::Supporter::SupportingList::LOWER_OFFSET
 			DEFAULT_LIMIT   = TwicasStream::Supporter::SupportingList::DEFAULT_LIMIT
@@ -253,7 +253,7 @@ RSpec.describe TwicasStream::Supporter do
 
 	describe 'SupporterList' do
 		before :context do
-			DEFAULT_USER_ID = 'twitcasting_jp'
+			DEFAULT_USER_ID = 'twitcasting_dev'
 			DEFAULT_OFFSET  = TwicasStream::Supporter::SupporterList::DEFAULT_OFFSET
 			LOWER_OFFSET    = TwicasStream::Supporter::SupporterList::LOWER_OFFSET
 			DEFAULT_LIMIT   = TwicasStream::Supporter::SupporterList::DEFAULT_LIMIT
