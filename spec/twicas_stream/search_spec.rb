@@ -287,5 +287,144 @@ RSpec.describe TwicasStream::Search do
 				end
 			end
 		end
+
+		describe 'type is' do
+			context 'recommend' do
+				let :param do
+					{
+						:limit => LOWER_LIMIT, 
+						:type => DEFAULT_TYPE, 
+						:context => DEFAULT_CONTEXT, 
+						:lang => DEFAULT_LANG
+					}
+				end
+
+				it '' do
+					expect(search_movies.keys).to eq([:movies])
+				end
+			end
+
+			context 'wrong string' do
+				let :param do
+					{
+						:limit => LOWER_LIMIT, 
+						:type => DEFAULT_TYPE + 'hogehoge', 
+						:context => DEFAULT_CONTEXT, 
+						:lang => DEFAULT_LANG
+					}
+				end
+
+				it '' do
+					expect(search_movies.keys).to eq([:error])
+				end
+			end
+
+			context 'number' do
+				let :param do
+					{
+						:limit => LOWER_LIMIT, 
+						:type => '123', 
+						:context => DEFAULT_CONTEXT, 
+						:lang => DEFAULT_LANG
+					}
+				end
+
+				it '' do
+					expect(search_movies.keys).to eq([:error])
+				end
+			end
+
+			context 'empty string' do
+				let :param do
+					{
+						:limit => LOWER_LIMIT, 
+						:type => '', 
+						:context => DEFAULT_CONTEXT, 
+						:lang => DEFAULT_LANG
+					}
+				end
+
+				it '' do
+					expect(search_movies.keys).to eq([:error])
+				end
+			end
+		end
+
+		describe 'language is' do
+			context 'japanese' do
+				let :param do
+					{
+						:limit => LOWER_LIMIT, 
+						:type => DEFAULT_TYPE, 
+						:context => DEFAULT_CONTEXT, 
+						:lang => DEFAULT_LANG
+					}
+				end
+
+				it '' do
+					expect(search_movies.keys).to eq([:movies])
+				end
+			end
+
+			context 'english' do
+				let :param do
+					{
+						:limit => LOWER_LIMIT, 
+						:type => DEFAULT_TYPE, 
+						:context => DEFAULT_CONTEXT, 
+						:lang => 'en'
+					}
+				end
+
+				it '' do
+					expect(search_movies.keys).to eq([:error])
+				end
+			end
+
+			context 'chinese' do
+				let :param do
+					{
+						:limit => LOWER_LIMIT, 
+						:type => DEFAULT_TYPE, 
+						:context => DEFAULT_CONTEXT, 
+						:lang => 'ch'
+					}
+				end
+
+				it '' do
+					expect(search_movies.keys).to eq([:error])
+				end
+			end
+
+			context 'number' do
+				let :param do
+					{
+						:limit => LOWER_LIMIT, 
+						:type => DEFAULT_TYPE, 
+						:context => DEFAULT_CONTEXT, 
+						:lang => '123'
+					}
+				end
+
+				it '' do
+					expect(search_movies.keys).to eq([:error])
+				end
+			end
+
+			context 'empty string' do
+				let :param do
+					{
+						:limit => LOWER_LIMIT, 
+						:type => DEFAULT_TYPE, 
+						:context => DEFAULT_CONTEXT, 
+						:lang => ''
+					}
+				end
+
+				it '' do
+					expect(search_movies.keys).to eq([:error])
+				end
+			end
+		end
 	end
 end

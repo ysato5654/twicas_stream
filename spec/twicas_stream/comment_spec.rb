@@ -205,7 +205,7 @@ RSpec.describe TwicasStream::Comment do
 				end
 			end
 
-			context 'empty string' do
+			context 'empty string: invalid parameter. but, API responses correctly.' do
 				let :param do
 					{
 						:movie_id => DEFAULT_MOVIE_ID,
@@ -216,7 +216,7 @@ RSpec.describe TwicasStream::Comment do
 				end
 
 				it '' do
-					expect(comments.keys).to eq([:error])
+					expect(comments.keys).to eq([:movie_id, :all_count, :comments])
 				end
 			end
 		end
