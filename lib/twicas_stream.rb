@@ -39,7 +39,7 @@ module TwicasStream
 				if key == 'movies'
 					# 'SearchLiveMovies'
 					if is_TwicasApiObject?(value.first.keys.first)
-						value.map{ |i|
+						response[key.to_sym] = value.map{ |i|
 							child_response = Hash.new
 
 							i.each{ |child_key, child_value| child_response[child_key.to_sym] = parse_deep(child_key, child_value) }
@@ -61,7 +61,7 @@ module TwicasStream
 				# * 'users' key of 'SearchUsers' method
 				# * 'categories' key of 'GetCategories' method
 				# * 'comments' key of 'GetComments' method
-				if (key != key.singularize) and is_TwicasApiObject?(key)
+				elsif (key != key.singularize) and is_TwicasApiObject?(key)
 					response[key.to_sym] = value.map{ |i| parse_deep(key, i) }
 
 				# singular form, and others
