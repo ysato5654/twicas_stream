@@ -12,6 +12,7 @@ RSpec.describe TwicasStream::Comment do
 		before :context do
 			DEFAULT_MOVIE_ID = '189037369'
 			DEFAULT_OFFSET   = TwicasStream::Comment::GetComments::DEFAULT_OFFSET
+			LOWER_OFFSET   = TwicasStream::Comment::GetComments::LOWER_OFFSET
 			DEFAULT_LIMIT    = TwicasStream::Comment::GetComments::DEFAULT_LIMIT
 			LOWER_LIMIT      = TwicasStream::Comment::GetComments::LOWER_LIMIT
 			UPPER_LIMIT      = TwicasStream::Comment::GetComments::UPPER_LIMIT
@@ -70,6 +71,42 @@ RSpec.describe TwicasStream::Comment do
 
 				it '' do
 					expect(comments.keys).to eq([:error])
+				end
+			end
+		end
+
+		describe 'offset is' do
+			context 'within limitation' do
+				context 'equal to lower limit' do
+					let :param do
+						{
+							:movie_id => DEFAULT_MOVIE_ID,
+							:offset => LOWER_OFFSET,
+							:limit => DEFAULT_LIMIT,
+							:slice_id => DEFAULT_SLICE_ID
+						}
+					end
+
+					it '' do
+						expect(comments.keys).to eq([:movie_id, :all_count, :comments])
+					end
+				end
+			end
+
+			context 'out of limitation' do
+				context 'less than lower limit' do
+					let :param do
+						{
+							:movie_id => DEFAULT_MOVIE_ID,
+							:offset => LOWER_OFFSET - 1,
+							:limit => DEFAULT_LIMIT,
+							:slice_id => DEFAULT_SLICE_ID
+						}
+					end
+
+					it '' do
+						expect(comments.keys).to eq([:error])
+					end
 				end
 			end
 		end
@@ -140,7 +177,7 @@ RSpec.describe TwicasStream::Comment do
 			end
 		end
 
-		context 'slice id is' do
+		describe 'slice id is' do
 			context 'within limitation' do
 				context 'equal to lower limit' do
 					let :param do
