@@ -33,32 +33,38 @@ module TwicasStream
 			header = header(result)
 
 			body.each{ |key, value|
-				# here is the plural form of TwicasStream
-				if (key != key.singularize) and is_TwicasApiObject?(key)
-					if key == 'movies'
-						array = Array.new
-						value.each{ |e|
-							tmp = Hash.new
+				# special if statement for the key into following method
+				# * 'movies' key of 'SearchLiveMovies' method
+				# * 'movies' key of 'GetMoviesbyUser' method
+				if key == 'movies'
+					# 'SearchLiveMovies'
+					if is_TwicasApiObject?(value.first.keys.first)
+						response[key.to_sym] = value.map{ |i|
+							child_response = Hash.new
 
-							e.each{ |child_key, child_value|
-								tmp[child_key.to_sym] = parse_deep(child_key, child_value)
-							}
+							i.each{ |child_key, child_value| child_response[child_key.to_sym] = parse_deep(child_key, child_value) }
 
-							array.push tmp
+							child_response
 						}
-
-						response[key.to_sym] = array
-
+					# 'GetMoviesbyUser'
 					else
 						response[key.to_sym] = value.map{ |i| parse_deep(key, i) }
-
 					end
-				# following keys is actually TwicasApiObject as 'SupporterUser', but is_TwicasApiObject?(key) = false
-				# so, we prepare special support as below
+
+				# special if statement for 'SupporterUser' as TwicasApiObject into 'SupportingList' and 'SupporterList' method, because these keys are is_TwicasApiObject?(key) = false
+				# * 'supporting' key of 'SupportingList' method
+				# * 'supporters' key of 'SupporterList' method
 				elsif key == 'supporting' or key == 'supporters'
 					response[key.to_sym] = value.map{ |i| parse_deep('SupporterUser', i) }
 
-				# here is a singular form of TwicasApiObject, also others are here
+				# plural form
+				# * 'users' key of 'SearchUsers' method
+				# * 'categories' key of 'GetCategories' method
+				# * 'comments' key of 'GetComments' method
+				elsif (key != key.singularize) and is_TwicasApiObject?(key)
+					response[key.to_sym] = value.map{ |i| parse_deep(key, i) }
+
+				# singular form, and others
 				else
 					response[key.to_sym] = parse_deep(key, value)
 
