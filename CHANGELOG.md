@@ -1,3 +1,12 @@
+## v1.3.0
+[full changelog](http://github.com/ysato5654/twicas_stream/compare/v1.2.2...v1.3.0)
+
+* support some requests
+	* Movie
+		- Get Movies by User
+		- Get Current Live
+* improve reliability
+
 ## v1.2.2
 [full changelog](http://github.com/ysato5654/twicas_stream/compare/v1.2.1...v1.2.2)
 
