@@ -10,7 +10,8 @@ RSpec.describe TwicasStream::Search do
 
 	describe 'SearchUsers' do
 		before :context do
-			DEFAULT_WORDS = 'ツイキャス 公式'
+			#DEFAULT_WORDS = 'ツイキャス 公式'
+			DEFAULT_WORDS = 'twitcasting'
 			DEFAULT_LIMIT = TwicasStream::Search::SearchUsers::DEFAULT_LIMIT
 			LOWER_LIMIT   = TwicasStream::Search::SearchUsers::LOWER_LIMIT
 			UPPER_LIMIT   = TwicasStream::Search::SearchUsers::UPPER_LIMIT
@@ -37,7 +38,7 @@ RSpec.describe TwicasStream::Search do
 
 				context 'when word is two word' do
 					let :words do
-						DEFAULT_WORDS
+						DEFAULT_WORDS + ' ' + 'jp'
 					end
 
 					subject :users do
@@ -54,7 +55,7 @@ RSpec.describe TwicasStream::Search do
 
 				context 'when word is one word' do
 					let :words do
-						'ツイキャス'
+						DEFAULT_WORDS
 					end
 
 					subject :users do

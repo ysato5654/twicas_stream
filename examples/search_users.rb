@@ -11,7 +11,8 @@ if $0 == __FILE__
 		request_header.access_token = 'xxx'# put your access token here
 	end
 
-	words = 'ツイキャス 公式'
+	#words = 'ツイキャス 公式'
+	words = 'twitcasting'
 	limit = 3
 	lang = 'ja'
 	api = TwicasStream::Search::SearchUsers.new(words, limit, lang)
