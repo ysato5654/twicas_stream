@@ -20,7 +20,7 @@ RSpec.describe TwicasStream::Comment do
 			LOWER_SLICE_ID   = TwicasStream::Comment::GetComments::LOWER_SLICE_ID
 		end
 
-		subject :comments do
+		subject :response do
 			api.response
 		end
 
@@ -28,232 +28,355 @@ RSpec.describe TwicasStream::Comment do
 			TwicasStream::Comment::GetComments.new(param[:movie_id], param[:offset], param[:limit], param[:slice_id])
 		end
 
-		describe 'movie id is' do
-			context 'existing movie id' do
+		describe '#new(movie_id, offset, limit, slice_id)' do
+			describe '' do
+				let :param do
+					{
+						:movie_id => movie_id, 
+						:offset => DEFAULT_OFFSET, 
+						:limit => DEFAULT_LIMIT, 
+						:slice_id => DEFAULT_SLICE_ID
+					}
+				end
+
+				context 'when movie_id is existence' do
+					let :movie_id do
+						DEFAULT_MOVIE_ID
+					end
+
+					#subject :movie_id do
+					#	response[:movie_id]
+					#end
+					# => multiple of movie_id
+
+					subject :all_count do
+						response[:all_count]
+					end
+
+					#subject :comments do
+					#	response[:comments]
+					#end
+
+					it '' do
+						expect(response.keys).to eq([:movie_id, :all_count, :comments])
+
+						expect(response[:movie_id]).to be_kind_of(String)
+						expect(all_count).to be_kind_of(Integer)
+						#expect(comments.first.keys).to eq([:id, :message, :from_user, :created])
+					end
+				end
+
+				context 'when movie_id is no existence' do
+					let :movie_id do
+						'abc'
+					end
+
+					subject :error do
+						response[:error]
+					end
+
+					it '' do
+						expect(response.keys).to eq([:error])
+
+						expect(error[:code]).to eq(404)
+						expect(error[:message]).to eq('Not Found')
+					end
+				end
+
+				context 'when movie_id is empty' do
+					let :movie_id do
+						''
+					end
+
+					subject :error do
+						response[:error]
+					end
+
+					it '' do
+						expect(response.keys).to eq([:error])
+
+						expect(error[:code]).to eq(404)
+						expect(error[:message]).to eq('Not Found')
+					end
+				end
+			end
+
+			describe '' do
+				let :param do
+					{
+						:movie_id => DEFAULT_MOVIE_ID, 
+						:offset => offset, 
+						:limit => DEFAULT_LIMIT, 
+						:slice_id => DEFAULT_SLICE_ID
+					}
+				end
+
+				context 'when offset is equal to lower limit (within limitation)' do
+					let :offset do
+						LOWER_OFFSET
+					end
+
+					subject :movie_id do
+						response[:movie_id]
+					end
+
+					subject :all_count do
+						response[:all_count]
+					end
+
+					#subject :comments do
+					#	response[:comments]
+					#end
+
+					it '' do
+						expect(response.keys).to eq([:movie_id, :all_count, :comments])
+
+						expect(movie_id).to be_kind_of(String)
+						expect(all_count).to be_kind_of(Integer)
+						#expect(comments.first.keys).to eq([:id, :message, :from_user, :created])
+					end
+				end
+
+				context 'when offset is less than lower limit (out of limitation)' do
+					let :offset do
+						LOWER_OFFSET - 1
+					end
+
+					subject :error do
+						response[:error]
+					end
+
+					it '' do
+						expect(response.keys).to eq([:error])
+
+						expect(error[:code]).to eq(1001)
+						expect(error[:message]).to eq('Validation error')
+						expect(error[:details]["offset"]).to eq(['min'])
+					end
+				end
+			end
+
+			describe '' do
+				let :param do
+					{
+						:movie_id => DEFAULT_MOVIE_ID, 
+						:offset => DEFAULT_OFFSET, 
+						:limit => limit, 
+						:slice_id => DEFAULT_SLICE_ID
+					}
+				end
+
+				context 'when limit is equal to lower limit (within limitation)' do
+					let :limit do
+						LOWER_LIMIT
+					end
+
+					subject :movie_id do
+						response[:movie_id]
+					end
+
+					subject :all_count do
+						response[:all_count]
+					end
+
+					#subject :comments do
+					#	response[:comments]
+					#end
+
+					it '' do
+						expect(response.keys).to eq([:movie_id, :all_count, :comments])
+
+						expect(movie_id).to be_kind_of(String)
+						expect(all_count).to be_kind_of(Integer)
+						#expect(comments.first.keys).to eq([:id, :message, :from_user, :created])
+					end
+				end
+
+				context 'when limit is equal to upper limit (within limitation)' do
+					let :limit do
+						UPPER_LIMIT
+					end
+
+					subject :movie_id do
+						response[:movie_id]
+					end
+
+					subject :all_count do
+						response[:all_count]
+					end
+
+					#subject :comments do
+					#	response[:comments]
+					#end
+
+					it '' do
+						expect(response.keys).to eq([:movie_id, :all_count, :comments])
+
+						expect(movie_id).to be_kind_of(String)
+						expect(all_count).to be_kind_of(Integer)
+						#expect(comments.first.keys).to eq([:id, :message, :from_user, :created])
+					end
+				end
+
+				context 'when limit is less than lower limit (out of limitation)' do
+					let :limit do
+						LOWER_LIMIT - 1
+					end
+
+					subject :error do
+						response[:error]
+					end
+
+					it '' do
+						expect(response.keys).to eq([:error])
+
+						expect(error[:code]).to eq(1001)
+						expect(error[:message]).to eq('Validation error')
+						expect(error[:details]["limit"]).to eq(['min'])
+					end
+				end
+
+				context 'when limit is over upper limit (out of limitation): according to API document, upper limit is 50. but, it seems to be 100 correctly. in this test, we set by 101.' do
+					let :limit do
+						UPPER_LIMIT + UPPER_LIMIT + 1
+					end
+
+					subject :error do
+						response[:error]
+					end
+
+					it '' do
+						expect(response.keys).to eq([:error])
+
+						expect(error[:code]).to eq(1001)
+						expect(error[:message]).to eq('Validation error')
+						expect(error[:details]["limit"]).to eq(['max'])
+					end
+				end
+			end
+
+			describe '' do
 				let :param do
 					{
 						:movie_id => DEFAULT_MOVIE_ID, 
 						:offset => DEFAULT_OFFSET, 
 						:limit => DEFAULT_LIMIT, 
-						:slice_id => DEFAULT_SLICE_ID
+						:slice_id => slice_id
 					}
 				end
 
-				it '' do
-					expect(comments.keys).to eq([:movie_id, :all_count, :comments])
-				end
-			end
+				context 'when slice_id is equal to lower limit (within limitation)' do
+					let :slice_id do
+						LOWER_SLICE_ID
+					end
 
-			context 'no existing movie -> Not Found (code: 404)' do
-				let :param do
-					{
-						:movie_id => 'abc', 
-						:offset => DEFAULT_OFFSET, 
-						:limit => DEFAULT_LIMIT, 
-						:slice_id => DEFAULT_SLICE_ID
-					}
-				end
+					subject :movie_id do
+						response[:movie_id]
+					end
 
-				it '' do
-					expect(comments.keys).to eq([:error])
-				end
-			end
+					subject :all_count do
+						response[:all_count]
+					end
 
-			context 'empty string -> Not Found (code: 404)' do
-				let :param do
-					{
-						:movie_id => '', 
-						:offset => DEFAULT_OFFSET, 
-						:limit => DEFAULT_LIMIT, 
-						:slice_id => DEFAULT_SLICE_ID
-					}
+					#subject :comments do
+					#	response[:comments]
+					#end
+
+					it '' do
+						expect(response.keys).to eq([:movie_id, :all_count, :comments])
+
+						expect(movie_id).to be_kind_of(String)
+						expect(all_count).to be_kind_of(Integer)
+						#expect(comments.first.keys).to eq([:id, :message, :from_user, :created])
+					end
 				end
 
-				it '' do
-					expect(comments.keys).to eq([:error])
-				end
-			end
-		end
+				context 'when slice_id is less than lower limit (out of limitation)' do
+					let :slice_id do
+						LOWER_SLICE_ID - 1
+					end
 
-		describe 'offset is' do
-			context 'within limitation' do
-				context 'equal to lower limit' do
-					let :param do
-						{
-							:movie_id => DEFAULT_MOVIE_ID,
-							:offset => LOWER_OFFSET,
-							:limit => DEFAULT_LIMIT,
-							:slice_id => DEFAULT_SLICE_ID
-						}
+					subject :error do
+						response[:error]
 					end
 
 					it '' do
-						expect(comments.keys).to eq([:movie_id, :all_count, :comments])
+						expect(response.keys).to eq([:error])
+
+						expect(error[:code]).to eq(1001)
+						expect(error[:message]).to eq('Validation error')
+						expect(error[:details]["slice_id"]).to eq(['min'])
 					end
 				end
-			end
 
-			context 'out of limitation' do
-				context 'less than lower limit' do
-					let :param do
-						{
-							:movie_id => DEFAULT_MOVIE_ID,
-							:offset => LOWER_OFFSET - 1,
-							:limit => DEFAULT_LIMIT,
-							:slice_id => DEFAULT_SLICE_ID
-						}
+				context 'when slice_id is none (default)' do
+					let :slice_id do
+						DEFAULT_SLICE_ID
+					end
+
+					subject :movie_id do
+						response[:movie_id]
+					end
+
+					subject :all_count do
+						response[:all_count]
+					end
+
+					#subject :comments do
+					#	response[:comments]
+					#end
+
+					it '' do
+						expect(response.keys).to eq([:movie_id, :all_count, :comments])
+
+						expect(movie_id).to be_kind_of(String)
+						expect(all_count).to be_kind_of(Integer)
+						#expect(comments.first.keys).to eq([:id, :message, :from_user, :created])
+					end
+				end
+
+				context 'when slice_id is incorrect string' do
+					let :slice_id do
+						DEFAULT_SLICE_ID + 'hogehoge'
+					end
+
+					subject :error do
+						response[:error]
 					end
 
 					it '' do
-						expect(comments.keys).to eq([:error])
+						expect(response.keys).to eq([:error])
+
+						expect(error[:code]).to eq(1001)
+						expect(error[:message]).to eq('Validation error')
+						expect(error[:details]["slice_id"]).to eq(['intVal', 'min'])
 					end
 				end
-			end
-		end
 
-		describe 'limit is' do
-			context 'within limitation' do
-				context 'equal to lower limit' do
-					let :param do
-						{
-							:movie_id => DEFAULT_MOVIE_ID, 
-							:offset => DEFAULT_OFFSET, 
-							:limit => LOWER_LIMIT, 
-							:slice_id => DEFAULT_SLICE_ID
-						}
+				context 'when slice_id is empty (Although invalid parameter, API responses correctly.)' do
+					let :slice_id do
+						''
 					end
+
+					subject :movie_id do
+						response[:movie_id]
+					end
+
+					subject :all_count do
+						response[:all_count]
+					end
+
+					#subject :comments do
+					#	response[:comments]
+					#end
 
 					it '' do
-						expect(comments.keys).to eq([:movie_id, :all_count, :comments])
+						expect(response.keys).to eq([:movie_id, :all_count, :comments])
+
+						expect(movie_id).to be_kind_of(String)
+						expect(all_count).to be_kind_of(Integer)
+						#expect(comments.first.keys).to eq([:id, :message, :from_user, :created])
 					end
-				end
-
-				context 'equal to upper limit' do
-					let :param do
-						{
-							:movie_id => DEFAULT_MOVIE_ID, 
-							:offset => DEFAULT_OFFSET, 
-							:limit => UPPER_LIMIT, 
-							:slice_id => DEFAULT_SLICE_ID
-						}
-					end
-
-					it '' do
-						expect(comments.keys).to eq([:movie_id, :all_count, :comments])
-					end
-				end
-			end
-
-			context 'out of limitation' do
-				context 'less than lower limit' do
-					let :param do
-						{
-							:movie_id => DEFAULT_MOVIE_ID, 
-							:offset => DEFAULT_OFFSET, 
-							:limit => LOWER_LIMIT - 1, 
-							:slice_id => DEFAULT_SLICE_ID
-						}
-					end
-
-					it '' do
-						expect(comments.keys).to eq([:error])
-					end
-				end
-
-				context 'over upper limit: according to API document, upper limit is 50. but, it seems to be 100 correctly. in this test, we set by 101.' do
-					let :param do
-						{
-							:movie_id => DEFAULT_MOVIE_ID, 
-							:offset => DEFAULT_OFFSET, 
-							:limit => UPPER_LIMIT + UPPER_LIMIT + 1, 
-							:slice_id => DEFAULT_SLICE_ID
-						}
-					end
-
-					it '' do
-						expect(comments.keys).to eq([:error])
-					end
-				end
-			end
-		end
-
-		describe 'slice id is' do
-			context 'within limitation' do
-				context 'equal to lower limit' do
-					let :param do
-						{
-							:movie_id => DEFAULT_MOVIE_ID,
-							:offset => DEFAULT_OFFSET,
-							:limit => DEFAULT_LIMIT,
-							:slice_id => LOWER_SLICE_ID
-						}
-					end
-
-					it '' do
-						expect(comments.keys).to eq([:movie_id, :all_count, :comments])
-					end
-				end
-			end
-
-			context 'out of limitation' do
-				context 'less than lower limit' do
-					let :param do
-						{
-							:movie_id => DEFAULT_MOVIE_ID,
-							:offset => DEFAULT_OFFSET,
-							:limit => DEFAULT_LIMIT,
-							:slice_id => LOWER_SLICE_ID - 1
-						}
-					end
-
-					it '' do
-						expect(comments.keys).to eq([:error])
-					end
-				end
-			end
-
-			context 'none (default)' do
-				let :param do
-					{
-						:movie_id => DEFAULT_MOVIE_ID,
-						:offset => DEFAULT_OFFSET,
-						:limit => DEFAULT_LIMIT,
-						:slice_id => DEFAULT_SLICE_ID
-					}
-				end
-
-				it '' do
-					expect(comments.keys).to eq([:movie_id, :all_count, :comments])
-				end
-			end
-
-			context 'incorrect string' do
-				let :param do
-					{
-						:movie_id => DEFAULT_MOVIE_ID,
-						:offset => DEFAULT_OFFSET,
-						:limit => DEFAULT_LIMIT,
-						:slice_id => DEFAULT_SLICE_ID + 'hogehoge'
-					}
-				end
-
-				it '' do
-					expect(comments.keys).to eq([:error])
-				end
-			end
-
-			context 'empty string: invalid parameter. but, API responses correctly.' do
-				let :param do
-					{
-						:movie_id => DEFAULT_MOVIE_ID,
-						:offset => DEFAULT_OFFSET,
-						:limit => DEFAULT_LIMIT,
-						:slice_id => ''
-					}
-				end
-
-				it '' do
-					expect(comments.keys).to eq([:movie_id, :all_count, :comments])
 				end
 			end
 		end

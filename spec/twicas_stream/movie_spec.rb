@@ -13,7 +13,7 @@ RSpec.describe TwicasStream::Movie do
 			DEFAULT_MOVIE_ID = '189037369'
 		end
 
-		subject :movie_info do
+		subject :response do
 			api.response
 		end
 
@@ -21,34 +21,64 @@ RSpec.describe TwicasStream::Movie do
 			TwicasStream::Movie::GetMovieInfo.new(movie_id)
 		end
 
-		describe 'movie id is' do
-			context 'existing movie id' do
+		describe '#new(movie_id)' do
+			context 'when movie_id is existence' do
 				let :movie_id do
 					DEFAULT_MOVIE_ID
 				end
 
+				subject :movie do
+					response[:movie]
+				end
+
+				subject :broadcaster do
+					response[:broadcaster]
+				end
+
+				subject :tags do
+					response[:tags]
+				end
+
 				it '' do
-					expect(movie_info.keys).to eq([:movie, :broadcaster, :tags])
+					expect(response.keys).to eq([:movie, :broadcaster, :tags])
+
+					expect(movie.keys).to eq([:id, :user_id, :title, :subtitle, :last_owner_comment, :category, :link, :is_live, :is_recorded, :comment_count, :large_thumbnail, :small_thumbnail, :country, :duration, :created, :is_collabo, :is_protected, :max_view_count, :current_view_count, :total_view_count, :hls_url])
+					expect(broadcaster.keys).to eq([:id, :screen_id, :name, :image, :profile, :level, :last_movie_id, :is_live, :supporter_count, :supporting_count, :created])
+					expect(tags).to be_kind_of(Array)
 				end
 			end
 
-			context 'no existing movie id' do
+			context 'when movie_id is no existence' do
 				let :movie_id do
 					DEFAULT_MOVIE_ID + 'hogehoge'
 				end
 
+				subject :error do
+					response[:error]
+				end
+
 				it '' do
-					expect(movie_info.keys).to eq([:error])
+					expect(response.keys).to eq([:error])
+
+					expect(error[:code]).to eq(404)
+					expect(error[:message]).to eq('Not Found')
 				end
 			end
 
-			context 'empty string' do
+			context 'when movie_id is empty' do
 				let :movie_id do
 					''
 				end
 
+				subject :error do
+					response[:error]
+				end
+
 				it '' do
-					expect(movie_info.keys).to eq([:error])
+					expect(response.keys).to eq([:error])
+
+					expect(error[:code]).to eq(404)
+					expect(error[:message]).to eq('Not Found')
 				end
 			end
 		end
@@ -67,264 +97,374 @@ RSpec.describe TwicasStream::Movie do
 			LOWER_SLICE_ID   = TwicasStream::Movie::GetMoviesbyUser::LOWER_SLICE_ID
 		end
 
-		subject :movie_info do
+		subject :response do
 			api.response
 		end
 
 		let :api do
-			TwicasStream::Movie::GetMoviesbyUser.new(user_id, param[:offset], param[:limit], param[:slice_id])
+			TwicasStream::Movie::GetMoviesbyUser.new(param[:user_id], param[:offset], param[:limit], param[:slice_id])
 		end
 
-		describe 'user id is' do
-			let :param do
-				{
-					:offset => DEFAULT_OFFSET, 
-					:limit => DEFAULT_LIMIT, 
-					:slice_id => DEFAULT_SLICE_ID
-				}
-			end
-
-			context 'existing user id' do
-				let :user_id do
-					DEFAULT_USER_ID
-				end
-
-				it '' do
-					expect(movie_info.keys).to eq([:movies, :total_count])
-				end
-			end
-
-			context 'no existing user id' do
-				let :user_id do
-					DEFAULT_USER_ID + 'hogehoge'
-				end
-
-				it '' do
-					expect(movie_info.keys).to eq([:error])
-				end
-			end
-
-			context 'empty string' do
-				let :user_id do
-					''
-				end
-
-				it '' do
-					expect(movie_info.keys).to eq([:error])
-				end
-			end
-		end
-
-		describe 'offset is' do
-			let :user_id do
-				DEFAULT_USER_ID
-			end
-
-			context 'within limitation' do
-				context 'equal to lower limit' do
-					let :param do
-						{
-							:offset => LOWER_OFFSET, 
-							:limit => DEFAULT_LIMIT, 
-							:slice_id => DEFAULT_SLICE_ID
-						}
-					end
-
-					it '' do
-						expect(movie_info.keys).to eq([:movies, :total_count])
-					end
-				end
-=begin
-				context 'equal to upper limit' do
-					let :param do
-						{
-							:offset => UPPER_OFFSET, 
-							:limit => DEFAULT_LIMIT, 
-							:slice_id => DEFAULT_SLICE_ID
-						}
-					end
-
-					it '' do
-						#expect(movie_info.keys).to eq([:movies, :total_count])
-						expect(movie_info.keys).to eq([:error])
-					end
-				end
-=end
-			end
-
-			context 'out of limitation' do
-				context 'less than lower limit' do
-					let :param do
-						{
-							:offset => LOWER_OFFSET - 1, 
-							:limit => DEFAULT_LIMIT, 
-							:slice_id => DEFAULT_SLICE_ID
-						}
-					end
-
-					it '' do
-						expect(movie_info.keys).to eq([:error])
-					end
-				end
-
-				context 'over upper limit' do
-					let :param do
-						{
-							:offset => UPPER_OFFSET + 1, 
-							:limit => DEFAULT_LIMIT, 
-							:slice_id => DEFAULT_SLICE_ID
-						}
-					end
-
-					it '' do
-						expect(movie_info.keys).to eq([:error])
-					end
-				end
-			end
-		end
-
-		describe 'limit is' do
-			let :user_id do
-				DEFAULT_USER_ID
-			end
-
-			context 'within limitation' do
-				context 'equal to lower limit' do
-					let :param do
-						{
-							:offset => DEFAULT_OFFSET, 
-							:limit => LOWER_LIMIT, 
-							:slice_id => DEFAULT_SLICE_ID
-						}
-					end
-
-					it '' do
-						expect(movie_info.keys).to eq([:movies, :total_count])
-					end
-				end
-
-				context 'equal to upper limit' do
-					let :param do
-						{
-							:offset => DEFAULT_OFFSET, 
-							:limit => UPPER_LIMIT, 
-							:slice_id => DEFAULT_SLICE_ID
-						}
-					end
-
-					it '' do
-						expect(movie_info.keys).to eq([:movies, :total_count])
-					end
-				end
-			end
-
-			context 'out of limitation' do
-				context 'less than lower limit' do
-					let :param do
-						{
-							:offset => DEFAULT_OFFSET, 
-							:limit => LOWER_LIMIT - 1, 
-							:slice_id => DEFAULT_SLICE_ID
-						}
-					end
-
-					it '' do
-						expect(movie_info.keys).to eq([:error])
-					end
-				end
-
-				context 'over upper limit' do
-					let :param do
-						{
-							:offset => DEFAULT_OFFSET, 
-							:limit => UPPER_LIMIT + 1, 
-							:slice_id => DEFAULT_SLICE_ID
-						}
-					end
-
-					it '' do
-						expect(movie_info.keys).to eq([:error])
-					end
-				end
-			end
-		end
-
-		describe 'slice id is' do
-			let :user_id do
-				DEFAULT_USER_ID
-			end
-=begin
-			context 'within limitation' do
-				context 'equal to lower limit' do
-					let :param do
-						{
-							:offset => DEFAULT_OFFSET,
-							:limit => DEFAULT_LIMIT,
-							:slice_id => LOWER_SLICE_ID
-						}
-					end
-
-					it '' do
-						expect(movie_info.keys).to eq([:movies, :total_count])
-					end
-				end
-			end
-=end
-			context 'out of limitation' do
-				context 'less than lower limit' do
-					let :param do
-						{
-							:offset => DEFAULT_OFFSET,
-							:limit => DEFAULT_LIMIT,
-							:slice_id => LOWER_SLICE_ID - 1
-						}
-					end
-
-					it '' do
-						expect(movie_info.keys).to eq([:error])
-					end
-				end
-			end
-
-			context 'none (default)' do
+		describe '#new(user_id, offset, limit, slice_id)' do
+			describe '' do
 				let :param do
 					{
-						:offset => DEFAULT_OFFSET,
-						:limit => DEFAULT_LIMIT,
+						:user_id => user_id, 
+						:offset => DEFAULT_OFFSET, 
+						:limit => DEFAULT_LIMIT, 
 						:slice_id => DEFAULT_SLICE_ID
 					}
 				end
 
-				it '' do
-					expect(movie_info.keys).to eq([:movies, :total_count])
+				context 'when user_id is existence' do
+					let :user_id do
+						DEFAULT_USER_ID
+					end
+
+					subject :movies do
+						response[:movies]
+					end
+
+					subject :total_count do
+						response[:total_count]
+					end
+
+					it '' do
+						expect(response.keys).to eq([:movies, :total_count])
+
+						expect(movies.first.keys).to eq([:id, :user_id, :title, :subtitle, :last_owner_comment, :category, :link, :is_live, :is_recorded, :comment_count, :large_thumbnail, :small_thumbnail, :country, :duration, :created, :is_collabo, :is_protected, :max_view_count, :current_view_count, :total_view_count, :hls_url])
+						expect(movies.last.keys).to eq([:id, :user_id, :title, :subtitle, :last_owner_comment, :category, :link, :is_live, :is_recorded, :comment_count, :large_thumbnail, :small_thumbnail, :country, :duration, :created, :is_collabo, :is_protected, :max_view_count, :current_view_count, :total_view_count, :hls_url])
+						expect(total_count).to be_kind_of(Integer)
+					end
+				end
+
+				context 'when user_id is no existence' do
+					let :user_id do
+						DEFAULT_USER_ID + 'hogehoge'
+					end
+
+					subject :error do
+						response[:error]
+					end
+
+					it '' do
+						expect(response.keys).to eq([:error])
+
+						expect(error[:code]).to eq(404)
+						expect(error[:message]).to eq('Not Found')
+					end
+				end
+
+				context 'when user_id is empty' do
+					let :user_id do
+						''
+					end
+
+					subject :error do
+						response[:error]
+					end
+
+					it '' do
+						expect(response.keys).to eq([:error])
+
+						expect(error[:code]).to eq(404)
+						expect(error[:message]).to eq('Not Found')
+					end
 				end
 			end
 
-			context 'incorrect string' do
+			describe '' do
 				let :param do
 					{
-						:offset => DEFAULT_OFFSET,
-						:limit => DEFAULT_LIMIT,
-						:slice_id => DEFAULT_SLICE_ID + 'hogehoge'
+						:user_id => DEFAULT_USER_ID, 
+						:offset => offset, 
+						:limit => DEFAULT_LIMIT, 
+						:slice_id => DEFAULT_SLICE_ID
 					}
 				end
 
-				it '' do
-					expect(movie_info.keys).to eq([:error])
+				context 'when offset is equal to lower limit (within limitation)' do
+					let :offset do
+						LOWER_OFFSET
+					end
+
+					subject :movies do
+						response[:movies]
+					end
+
+					subject :total_count do
+						response[:total_count]
+					end
+
+					it '' do
+						expect(response.keys).to eq([:movies, :total_count])
+
+						expect(movies.first.keys).to eq([:id, :user_id, :title, :subtitle, :last_owner_comment, :category, :link, :is_live, :is_recorded, :comment_count, :large_thumbnail, :small_thumbnail, :country, :duration, :created, :is_collabo, :is_protected, :max_view_count, :current_view_count, :total_view_count, :hls_url])
+						expect(movies.last.keys).to eq([:id, :user_id, :title, :subtitle, :last_owner_comment, :category, :link, :is_live, :is_recorded, :comment_count, :large_thumbnail, :small_thumbnail, :country, :duration, :created, :is_collabo, :is_protected, :max_view_count, :current_view_count, :total_view_count, :hls_url])
+						expect(total_count).to be_kind_of(Integer)
+					end
+				end
+=begin
+				context 'when offset is equal to upper limit (within limitation)' do
+					let :offset do
+						UPPER_OFFSET
+					end
+
+					subject :movies do
+						response[:movies]
+					end
+
+					subject :total_count do
+						response[:total_count]
+					end
+
+					it '' do
+						expect(response.keys).to eq([:movies, :total_count])
+
+						expect(movies.first.keys).to eq([:id, :user_id, :title, :subtitle, :last_owner_comment, :category, :link, :is_live, :is_recorded, :comment_count, :large_thumbnail, :small_thumbnail, :country, :duration, :created, :is_collabo, :is_protected, :max_view_count, :current_view_count, :total_view_count, :hls_url])
+						expect(movies.last.keys).to eq([:id, :user_id, :title, :subtitle, :last_owner_comment, :category, :link, :is_live, :is_recorded, :comment_count, :large_thumbnail, :small_thumbnail, :country, :duration, :created, :is_collabo, :is_protected, :max_view_count, :current_view_count, :total_view_count, :hls_url])
+						expect(total_count).to be_kind_of(Integer)
+					end
+				end
+=end
+				context 'when offset is less than lower limit (out of limitation)' do
+					let :offset do
+						LOWER_OFFSET - 1
+					end
+
+					subject :error do
+						response[:error]
+					end
+
+					it '' do
+						expect(response.keys).to eq([:error])
+
+						expect(error[:code]).to eq(1001)
+						expect(error[:message]).to eq('Validation error')
+						expect(error[:details]["offset"]).to eq(['min'])
+					end
+				end
+
+				context 'when offset is over upper limit (out of limitation)' do
+					let :offset do
+						UPPER_OFFSET + 1
+					end
+
+					subject :error do
+						response[:error]
+					end
+
+					it '' do
+						expect(response.keys).to eq([:error])
+
+						expect(error[:code]).to eq(1001)
+						expect(error[:message]).to eq('Validation error')
+						expect(error[:details]["offset"]).to eq(['max'])
+					end
 				end
 			end
 
-			context 'empty string: invalid parameter. but, API responses correctly.' do
+			describe '' do
 				let :param do
 					{
-						:offset => DEFAULT_OFFSET,
-						:limit => DEFAULT_LIMIT,
-						:slice_id => ''
+						:user_id => DEFAULT_USER_ID, 
+						:offset => DEFAULT_OFFSET, 
+						:limit => limit, 
+						:slice_id => DEFAULT_SLICE_ID
 					}
 				end
 
-				it '' do
-					expect(movie_info.keys).to eq([:movies, :total_count])
+				context 'when limit is equal to lower limit (within limitation)' do
+					let :limit do
+						LOWER_LIMIT
+					end
+
+					subject :movies do
+						response[:movies]
+					end
+
+					subject :total_count do
+						response[:total_count]
+					end
+
+					it '' do
+						expect(response.keys).to eq([:movies, :total_count])
+
+						expect(movies.first.keys).to eq([:id, :user_id, :title, :subtitle, :last_owner_comment, :category, :link, :is_live, :is_recorded, :comment_count, :large_thumbnail, :small_thumbnail, :country, :duration, :created, :is_collabo, :is_protected, :max_view_count, :current_view_count, :total_view_count, :hls_url])
+						expect(movies.last.keys).to eq([:id, :user_id, :title, :subtitle, :last_owner_comment, :category, :link, :is_live, :is_recorded, :comment_count, :large_thumbnail, :small_thumbnail, :country, :duration, :created, :is_collabo, :is_protected, :max_view_count, :current_view_count, :total_view_count, :hls_url])
+						expect(total_count).to be_kind_of(Integer)
+					end
+				end
+
+				context 'when limit is equal to upper limit (within limitation)' do
+					let :limit do
+						UPPER_LIMIT
+					end
+
+					subject :movies do
+						response[:movies]
+					end
+
+					subject :total_count do
+						response[:total_count]
+					end
+
+					it '' do
+						expect(response.keys).to eq([:movies, :total_count])
+
+						expect(movies.first.keys).to eq([:id, :user_id, :title, :subtitle, :last_owner_comment, :category, :link, :is_live, :is_recorded, :comment_count, :large_thumbnail, :small_thumbnail, :country, :duration, :created, :is_collabo, :is_protected, :max_view_count, :current_view_count, :total_view_count, :hls_url])
+						expect(movies.last.keys).to eq([:id, :user_id, :title, :subtitle, :last_owner_comment, :category, :link, :is_live, :is_recorded, :comment_count, :large_thumbnail, :small_thumbnail, :country, :duration, :created, :is_collabo, :is_protected, :max_view_count, :current_view_count, :total_view_count, :hls_url])
+						expect(total_count).to be_kind_of(Integer)
+					end
+				end
+
+				context 'when limit is less than lower limit (out of limitation)' do
+					let :limit do
+						LOWER_LIMIT - 1
+					end
+
+					subject :error do
+						response[:error]
+					end
+
+					it '' do
+						expect(response.keys).to eq([:error])
+
+						expect(error[:code]).to eq(1001)
+						expect(error[:message]).to eq('Validation error')
+						expect(error[:details]["limit"]).to eq(['min'])
+					end
+				end
+
+				context 'when limit is over upper limit (out of limitation)' do
+					let :limit do
+						UPPER_LIMIT + 1
+					end
+
+					subject :error do
+						response[:error]
+					end
+
+					it '' do
+						expect(response.keys).to eq([:error])
+
+						expect(error[:code]).to eq(1001)
+						expect(error[:message]).to eq('Validation error')
+						expect(error[:details]["limit"]).to eq(['max'])
+					end
+				end
+			end
+
+			describe '' do
+				let :param do
+					{
+						:user_id => DEFAULT_USER_ID, 
+						:offset => DEFAULT_OFFSET, 
+						:limit => DEFAULT_LIMIT, 
+						:slice_id => slice_id
+					}
+				end
+=begin
+				context 'when slice_id is equal to lower limit (within limitation)' do
+					let :slice_id do
+						LOWER_SLICE_ID
+					end
+
+					subject :movies do
+						response[:movies]
+					end
+
+					subject :total_count do
+						response[:total_count]
+					end
+
+					it '' do
+						expect(response.keys).to eq([:movies, :total_count])
+
+						expect(movies.first.keys).to eq([:id, :user_id, :title, :subtitle, :last_owner_comment, :category, :link, :is_live, :is_recorded, :comment_count, :large_thumbnail, :small_thumbnail, :country, :duration, :created, :is_collabo, :is_protected, :max_view_count, :current_view_count, :total_view_count, :hls_url])
+						expect(movies.last.keys).to eq([:id, :user_id, :title, :subtitle, :last_owner_comment, :category, :link, :is_live, :is_recorded, :comment_count, :large_thumbnail, :small_thumbnail, :country, :duration, :created, :is_collabo, :is_protected, :max_view_count, :current_view_count, :total_view_count, :hls_url])
+						expect(total_count).to be_kind_of(Integer)
+					end
+				end
+=end
+				context 'when slice_id is less than lower limit (out of limitation)' do
+					let :slice_id do
+						LOWER_SLICE_ID - 1
+					end
+
+					subject :error do
+						response[:error]
+					end
+
+					it '' do
+						expect(response.keys).to eq([:error])
+
+						expect(error[:code]).to eq(1001)
+						expect(error[:message]).to eq('Validation error')
+						expect(error[:details]["slice_id"]).to eq(['min'])
+					end
+				end
+
+				context 'when slice_id is none (default)' do
+					let :slice_id do
+						DEFAULT_SLICE_ID
+					end
+
+					subject :movies do
+						response[:movies]
+					end
+
+					subject :total_count do
+						response[:total_count]
+					end
+
+					it '' do
+						expect(response.keys).to eq([:movies, :total_count])
+
+						expect(movies.first.keys).to eq([:id, :user_id, :title, :subtitle, :last_owner_comment, :category, :link, :is_live, :is_recorded, :comment_count, :large_thumbnail, :small_thumbnail, :country, :duration, :created, :is_collabo, :is_protected, :max_view_count, :current_view_count, :total_view_count, :hls_url])
+						expect(movies.last.keys).to eq([:id, :user_id, :title, :subtitle, :last_owner_comment, :category, :link, :is_live, :is_recorded, :comment_count, :large_thumbnail, :small_thumbnail, :country, :duration, :created, :is_collabo, :is_protected, :max_view_count, :current_view_count, :total_view_count, :hls_url])
+						expect(total_count).to be_kind_of(Integer)
+					end
+				end
+
+				context 'when slice_id is incorrect string' do
+					let :slice_id do
+						DEFAULT_SLICE_ID + 'hogehoge'
+					end
+
+					subject :error do
+						response[:error]
+					end
+
+					it '' do
+						expect(response.keys).to eq([:error])
+
+						expect(error[:code]).to eq(1001)
+						expect(error[:message]).to eq('Validation error')
+						expect(error[:details]["slice_id"]).to eq(['intVal', 'min'])
+					end
+				end
+
+				context 'when slice_id is empty (Although invalid parameter, API responses correctly.)' do
+					let :slice_id do
+						''
+					end
+
+					subject :movies do
+						response[:movies]
+					end
+
+					subject :total_count do
+						response[:total_count]
+					end
+
+					it '' do
+						expect(response.keys).to eq([:movies, :total_count])
+
+						expect(movies.first.keys).to eq([:id, :user_id, :title, :subtitle, :last_owner_comment, :category, :link, :is_live, :is_recorded, :comment_count, :large_thumbnail, :small_thumbnail, :country, :duration, :created, :is_collabo, :is_protected, :max_view_count, :current_view_count, :total_view_count, :hls_url])
+						expect(movies.last.keys).to eq([:id, :user_id, :title, :subtitle, :last_owner_comment, :category, :link, :is_live, :is_recorded, :comment_count, :large_thumbnail, :small_thumbnail, :country, :duration, :created, :is_collabo, :is_protected, :max_view_count, :current_view_count, :total_view_count, :hls_url])
+						expect(total_count).to be_kind_of(Integer)
+					end
 				end
 			end
 		end
@@ -349,7 +489,7 @@ RSpec.describe TwicasStream::Movie do
 			@movies = api.response[:movies]
 		end
 
-		subject :current_live do
+		subject :response do
 			api.response
 		end
 
@@ -357,44 +497,81 @@ RSpec.describe TwicasStream::Movie do
 			TwicasStream::Movie::GetCurrentLive.new(user_id)
 		end
 
-		describe 'user id is' do
-			context 'existing user id, and also is live now' do
+		describe '#new(user_id)' do
+			context 'when user_id is existence' do
 				let :user_id do
 					@movies.first[:broadcaster][:id]
 				end
 
+				subject :movie do
+					response[:movie]
+				end
+
+				subject :broadcaster do
+					response[:broadcaster]
+				end
+
+				subject :tags do
+					response[:tags]
+				end
+
 				it '' do
-					expect(current_live.keys).to eq([:movie, :broadcaster, :tags])
+					expect(response.keys).to eq([:movie, :broadcaster, :tags])
+
+					expect(movie.keys).to eq([:id, :user_id, :title, :subtitle, :last_owner_comment, :category, :link, :is_live, :is_recorded, :comment_count, :large_thumbnail, :small_thumbnail, :country, :duration, :created, :is_collabo, :is_protected, :max_view_count, :current_view_count, :total_view_count, :hls_url])
+					expect(broadcaster.keys).to eq([:id, :screen_id, :name, :image, :profile, :level, :last_movie_id, :is_live, :supporter_count, :supporting_count, :created])
+					expect(tags).to be_kind_of(Array)
 				end
 			end
 
-			context 'existing user id, but is not live now' do
+			context 'when user_id is existence (not live now)' do
 				let :user_id do
 					DEFAULT_USER_ID
 				end
 
+				subject :error do
+					response[:error]
+				end
+
 				it '' do
-					expect(current_live.keys).to eq([:error])
+					expect(response.keys).to eq([:error])
+
+					expect(error[:code]).to eq(404)
+					expect(error[:message]).to eq('Not Found')
 				end
 			end
 
-			context 'no existing user id' do
+			context 'when user_id is no existence' do
 				let :user_id do
 					@movies.first[:broadcaster][:id] + 'hogehoge'
 				end
 
+				subject :error do
+					response[:error]
+				end
+
 				it '' do
-					expect(current_live.keys).to eq([:error])
+					expect(response.keys).to eq([:error])
+
+					expect(error[:code]).to eq(404)
+					expect(error[:message]).to eq('Not Found')
 				end
 			end
 
-			context 'empty string' do
+			context 'when user_id is empty' do
 				let :user_id do
 					''
 				end
 
+				subject :error do
+					response[:error]
+				end
+
 				it '' do
-					expect(current_live.keys).to eq([:error])
+					expect(response.keys).to eq([:error])
+
+					expect(error[:code]).to eq(404)
+					expect(error[:message]).to eq('Not Found')
 				end
 			end
 		end

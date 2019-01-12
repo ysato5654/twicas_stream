@@ -9,7 +9,7 @@ RSpec.describe TwicasStream::Category do
 	end
 
 	describe 'GetCategories' do
-		subject :categories do
+		subject :response do
 			api.response
 		end
 
@@ -17,54 +17,106 @@ RSpec.describe TwicasStream::Category do
 			TwicasStream::Category::GetCategories.new(lang)
 		end
 
-		describe 'language is' do
-			context 'japanese' do
+		describe '#new(lang)' do
+			context 'when lang is japanese' do
 				let :lang do
 					'ja'
 				end
 
+				subject :sub_categories do
+					categories.first[:sub_categories]
+				end
+
+				subject :categories do
+					response[:categories]
+				end
+
 				it '' do
-					expect(categories.keys).to eq([:categories])
+					expect(response.keys).to eq([:categories])
+
+					expect(categories.first.keys).to eq([:id, :name, :sub_categories])
+					expect(categories.last.keys).to eq([:id, :name, :sub_categories])
+
+					expect(sub_categories.first.keys).to eq([:id, :name, :count])
+					expect(sub_categories.last.keys).to eq([:id, :name, :count])
 				end
 			end
 
-			context 'english' do
+			context 'when lang is english' do
 				let :lang do
 					'en'
 				end
 
+				subject :sub_categories do
+					categories.first[:sub_categories]
+				end
+
+				subject :categories do
+					response[:categories]
+				end
+
 				it '' do
-					expect(categories.keys).to eq([:categories])
+					expect(response.keys).to eq([:categories])
+
+					expect(categories.first.keys).to eq([:id, :name, :sub_categories])
+					expect(categories.last.keys).to eq([:id, :name, :sub_categories])
+
+					expect(sub_categories.first.keys).to eq([:id, :name, :count])
+					expect(sub_categories.last.keys).to eq([:id, :name, :count])
 				end
 			end
 
-			context 'chinese' do
+			context 'when lang is chinese' do
 				let :lang do
 					'ch'
 				end
 
+				subject :error do
+					response[:error]
+				end
+
 				it '' do
-					expect(categories.keys).to eq([:error])
+					expect(response.keys).to eq([:error])
+
+					expect(error[:code]).to eq(1001)
+					expect(error[:message]).to eq('Validation error')
+					expect(error[:details]["lang"]).to eq(['in'])
 				end
 			end
 
-			context 'number' do
+			context 'when lang is number' do
 				let :lang do
 					'123'
 				end
 
+				subject :error do
+					response[:error]
+				end
+
 				it '' do
-					expect(categories.keys).to eq([:error])
+					expect(response.keys).to eq([:error])
+
+					expect(error[:code]).to eq(1001)
+					expect(error[:message]).to eq('Validation error')
+					expect(error[:details]["lang"]).to eq(['in'])
 				end
 			end
 
-			context 'empty string' do
+			context 'when lang is empty' do
 				let :lang do
 					''
 				end
 
+				subject :error do
+					response[:error]
+				end
+
 				it '' do
-					expect(categories.keys).to eq([:error])
+					expect(response.keys).to eq([:error])
+
+					expect(error[:code]).to eq(1001)
+					expect(error[:message]).to eq('Validation error')
+					expect(error[:details]["lang"]).to eq(['in'])
 				end
 			end
 		end
