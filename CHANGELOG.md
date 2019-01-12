@@ -1,3 +1,9 @@
+## v1.3.1
+[full changelog](http://github.com/ysato5654/twicas_stream/compare/v1.3.0...v1.3.1)
+
+* change required curb version
+* improve reliability
+
 ## v1.3.0
 [full changelog](http://github.com/ysato5654/twicas_stream/compare/v1.2.2...v1.3.0)
 
