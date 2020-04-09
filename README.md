@@ -9,7 +9,7 @@
 ## Installation
 
 ```rb
-gem install twicas_stream
+$ gem install twicas_stream
 ```
 
 ## Documentation / Help
