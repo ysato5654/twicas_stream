@@ -8,7 +8,7 @@
 
 ## Installation
 
-```rb
+```
 $ gem install twicas_stream
 ```
 
@@ -363,3 +363,30 @@ end
 └─	README.md							  
 ```
 
+### Travis CI with secure value
+
+#### 1. Installation
+
+```
+$ bundle install
+```
+
+Or install it yourself as:
+
+```
+$ gem install travis
+```
+
+#### 2. Login
+
+```
+$ travis login --auto
+```
+
+#### 3. Encrypt access token
+
+```
+$ travis encrypt-file config/access_token.txt
+```
+
+#### 4. Commit encrypted file to git
