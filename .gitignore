@@ -1,5 +1,6 @@
 # It must be ignored
 /config/access_token.txt
-/pkg
+/coverage/
+/pkg/
 .rspec_status
 Gemfile.lock
