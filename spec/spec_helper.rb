@@ -5,8 +5,13 @@ if ENV['CI']
   SimpleCov.start 'test_frameworks'
 end
 
-require "bundler/setup"
-require "twicas_stream"
+require 'simplecov'
+SimpleCov.start do
+  add_filter 'spec/twicas_stream_spec.rb'
+end
+
+require 'bundler/setup'
+require 'twicas_stream'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
