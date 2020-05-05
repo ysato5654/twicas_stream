@@ -1,3 +1,9 @@
+## v1.3.2
+[full changelog](http://github.com/ysato5654/twicas_stream/compare/v1.3.1...v1.3.2)
+
+* update for developer
+	* change required rake version
+
 ## v1.3.1
 [full changelog](http://github.com/ysato5654/twicas_stream/compare/v1.3.0...v1.3.1)
 
