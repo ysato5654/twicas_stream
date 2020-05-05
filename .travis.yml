@@ -3,7 +3,7 @@ language: ruby
 rvm:
   - 2.5.8
 before_install:
-  - gem install bundler -v 1.15.1
+  - gem install bundler -v 1.17.3
   - openssl aes-256-cbc -K $encrypted_ee2c407de685_key -iv $encrypted_ee2c407de685_iv -in config/access_token.txt.enc -out config/access_token.txt -d
 bundler_args: --jobs=2
 branches:
