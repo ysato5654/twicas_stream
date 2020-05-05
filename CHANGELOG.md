@@ -1,3 +1,9 @@
+## v1.3.4
+[full changelog](http://github.com/ysato5654/twicas_stream/compare/v1.3.3...v1.3.4)
+
+* update for developer
+	* update travis setting
+
 ## v1.3.3
 [full changelog](http://github.com/ysato5654/twicas_stream/compare/v1.3.2...v1.3.3)
 
